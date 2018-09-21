@@ -1,0 +1,19 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="Task.TextAppearance.Title" parent="TextAppearance.AppCompat.Title.Inverse" />
+
+    <style name="Task.TextAppearance.Description" parent="TextAppearance.AppCompat.Small.Inverse" />
+
+    <style name="Task.Button.Positive" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:backgroundTint">@color/colorCardButtonBackground</item>
+    </style>
+
+</resources>

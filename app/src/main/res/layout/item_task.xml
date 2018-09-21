@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.design.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/card_margin"
+        app:cardBackgroundColor="@color/colorAccent"
+        app:cardCornerRadius="@dimen/card_radius">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/text_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:textAppearance="@style/Task.TextAppearance.Title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Set up a scholarship. " />
+
+            <TextView
+                android:id="@+id/text_narration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/text_margin"
+                android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginTop="@dimen/text_margin"
+                android:textAppearance="@style/Task.TextAppearance.Description"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/text_title"
+                tools:text="Blah blah blah blah blah blah blah blah blah blah blah blah blah blah"
+                tools:visibility="visible" />
+
+            <Button
+                android:id="@+id/button_start_now"
+                style="@style/Task.Button.Positive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/card_button_margin"
+                android:layout_marginEnd="@dimen/card_button_margin"
+                android:text="@string/action_start_now"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:layout_toStartOf="@id/button_start_now"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/button_start_now"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_narration">
+
+                <TextView
+                    android:id="@+id/text_period"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/card_drawable_padding"
+                    android:drawableStart="@drawable/ic_period_16dp"
+                    android:drawableTint="@android:color/white"
+                    android:textAppearance="@style/Task.TextAppearance.Description"
+                    tools:text="1 week" />
+
+                <TextView
+                    android:id="@+id/text_popularity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/card_drawable_padding"
+                    android:drawableStart="@drawable/ic_popularity_16dp"
+                    android:drawableTint="@android:color/white"
+                    android:textAppearance="@style/Task.TextAppearance.Description"
+                    tools:text="Popularity: 24" />
+
+                <TextView
+                    android:id="@+id/text_contributor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/card_drawable_padding"
+                    android:drawableStart="@drawable/ic_contributor_16dp"
+                    android:drawableTint="@android:color/white"
+                    android:textAppearance="@style/Task.TextAppearance.Description"
+                    tools:text="Contributor: Race" />
+
+            </LinearLayout>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.design.card.MaterialCardView>
+
+</FrameLayout>
