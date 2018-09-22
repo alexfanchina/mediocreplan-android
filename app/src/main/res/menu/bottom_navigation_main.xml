@@ -2,12 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/menu_navi_discover"
         android:title="@string/navi_discover"
         android:icon="@drawable/ic_casino_black_24dp" />
     <item
+        android:id="@+id/menu_navi_plan"
         android:title="@string/navi_plan"
         android:icon="@drawable/ic_album_black_24dp" />
     <item
+        android:id="@+id/menu_navi_contribute"
         android:title="@string/navi_contribute"
         android:icon="@drawable/ic_widgets_black_24dp" />
 </menu>
