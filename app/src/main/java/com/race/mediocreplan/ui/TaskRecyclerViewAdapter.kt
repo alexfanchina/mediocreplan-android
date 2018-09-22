@@ -6,8 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.race.mediocreplan.R
-import com.race.mediocreplan.data.Task
-import com.race.mediocreplan.ui.ExploreFragment.OnListFragmentInteractionListener
+import com.race.mediocreplan.data.model.Task
 import kotlinx.android.synthetic.main.item_task.view.*
 
 /**
@@ -15,11 +14,10 @@ import kotlinx.android.synthetic.main.item_task.view.*
  * specified [OnListFragmentInteractionListener].
  * TODO: Replace the implementation with code for your data type.
  */
-class TaskRecyclerViewAdapter(
-        private val mValues: List<Task>,
-        private val mListener: OnListFragmentInteractionListener?)
+class TaskRecyclerViewAdapter()
     : RecyclerView.Adapter<TaskRecyclerViewAdapter.ViewHolder>() {
 
+    private var items: List<Task> = ArrayList()
     private val mOnClickListener: View.OnClickListener
 
     init {
@@ -27,8 +25,12 @@ class TaskRecyclerViewAdapter(
             val item = v.tag as Task
             // Notify the active callbacks interface (the activity, if the fragment is attached to
             // one) that an item has been selected.
-            mListener?.onListFragmentInteraction(item)
         }
+    }
+
+    fun setItems(tasks: List<Task>?) {
+        if (tasks is List<Task>)
+            items = tasks
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -39,7 +41,7 @@ class TaskRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val context = holder.mView.context
-        val item = mValues[position]
+        val item = items[position]
         holder.textTitle.text = item.title
         holder.textNarration.text = item.narration
         holder.textPeriod.text = item.duration.toString(context)
@@ -52,7 +54,7 @@ class TaskRecyclerViewAdapter(
         }
     }
 
-    override fun getItemCount(): Int = mValues.size
+    override fun getItemCount(): Int = items.size
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val textTitle: TextView = mView.text_title

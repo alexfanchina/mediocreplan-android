@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/list"
-    android:name="com.race.mediocreplan.ui.TaskFragment"
+    android:name="com.race.mediocreplan.ui.PlanFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipToPadding="false"
-    android:padding="@dimen/card_recycler_padding"
-    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-    tools:context=".ui.ExploreFragment"
-    tools:listitem="@layout/item_task" />
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    app:layoutManager="LinearLayoutManager"
+    tools:context=".ui.PlanFragment"
+    tools:listitem="@layout/fragment_plan" />
