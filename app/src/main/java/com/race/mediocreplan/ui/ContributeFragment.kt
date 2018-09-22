@@ -20,6 +20,7 @@ class ContributeFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_contribute, container, false)
         view.text.text = SpannedUtils.fromHtml(getString(R.string.why_mediocre))
+        // TODO: fix html bug and add email onclick event
         return view
     }
 
@@ -32,7 +33,7 @@ class ContributeFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance() =
                 ContributeFragment().apply {}
     }
 }
