@@ -5,6 +5,9 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SimpleItemAnimator
+import android.transition.TransitionManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +16,6 @@ import com.race.mediocreplan.data.model.Task
 import com.race.mediocreplan.presenter.ExplorePresenter
 
 
-/**
- * A fragment representing a list of Items.
- */
 class ExploreFragment : Fragment(), IExploreView {
 
     private val iPresenter = ExplorePresenter(this)
@@ -44,7 +44,15 @@ class ExploreFragment : Fragment(), IExploreView {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                taskAdapter = TaskRecyclerViewAdapter()
+                (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+                taskAdapter = TaskRecyclerViewAdapter(
+                        view,
+                        object : TaskRecyclerViewAdapter.OnItemClickInteractionListener {
+                            override fun onItemClickInteraction(item: Task) {
+                                Log.d(TAG, "$item clicked")
+                            }
+                        })
+                taskAdapter?.setHasStableIds(true)
                 adapter = taskAdapter
                 // TODO: Read items from local data
             }

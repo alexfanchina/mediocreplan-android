@@ -4,7 +4,7 @@ import android.content.Context
 import com.google.gson.annotations.SerializedName
 import com.race.mediocreplan.R
 
-data class Task(@SerializedName("id") val _id: Int) {
+data class Task(@SerializedName("task_id") val _id: Int) {
     @SerializedName("title")
     val title: String = ""
     @SerializedName("narration")

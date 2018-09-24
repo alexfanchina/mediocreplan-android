@@ -1,6 +1,9 @@
 package com.race.mediocreplan.ui
 
+import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
+import android.transition.AutoTransition
+import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,24 +12,13 @@ import com.race.mediocreplan.R
 import com.race.mediocreplan.data.model.Task
 import kotlinx.android.synthetic.main.item_task.view.*
 
-/**
- * [RecyclerView.Adapter] that can display a [Task] and makes a call to the
- * specified [OnListFragmentInteractionListener].
- * TODO: Replace the implementation with code for your data type.
- */
-class TaskRecyclerViewAdapter()
+class TaskRecyclerViewAdapter(
+        private val recyclerView: RecyclerView,
+        private val mListener: OnItemClickInteractionListener?)
     : RecyclerView.Adapter<TaskRecyclerViewAdapter.ViewHolder>() {
 
     private var items: List<Task> = ArrayList()
-    private val mOnClickListener: View.OnClickListener
-
-    init {
-        mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as Task
-            // Notify the active callbacks interface (the activity, if the fragment is attached to
-            // one) that an item has been selected.
-        }
-    }
+    private var mExpandedPosition: Int = -1
 
     fun setItems(tasks: List<Task>?) {
         if (tasks is List<Task>)
@@ -36,10 +28,25 @@ class TaskRecyclerViewAdapter()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_task, parent, false)
-        return ViewHolder(view)
+        val holder = ViewHolder(view)
+        holder.cardView.setOnClickListener { v ->
+            val item = v.tag as Task
+            val prevExpandedPosition = mExpandedPosition
+            mExpandedPosition = if (holder.adapterPosition == mExpandedPosition)
+                RecyclerView.NO_POSITION else holder.adapterPosition
+            mListener?.onItemClickInteraction(item)
+            // TODO: fix the transition
+            val transition = AutoTransition()
+            transition.duration = 200
+            TransitionManager.beginDelayedTransition(holder.mView as ViewGroup, transition)
+//            TransitionManager.beginDelayedTransition(recyclerView)
+            notifyDataSetChanged()
+        }
+        return holder
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val isExpanded: Boolean = (position == mExpandedPosition)
         val context = holder.mView.context
         val item = items[position]
         holder.textTitle.text = item.title
@@ -47,16 +54,25 @@ class TaskRecyclerViewAdapter()
         holder.textPeriod.text = item.duration.toString(context)
         holder.textPopularity.text = context.getString(R.string.desc_popularity, item.popularity)
         holder.textContributor.text = context.getString(R.string.desc_contributor, item.contributor)
-
-        with(holder.mView) {
+        holder.textNarration.visibility = if (isExpanded) View.VISIBLE else View.GONE
+        holder.itemView.isActivated = isExpanded
+        with(holder.cardView) {
             tag = item
-            setOnClickListener(mOnClickListener)
         }
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
     }
 
     override fun getItemCount(): Int = items.size
 
+    interface OnItemClickInteractionListener {
+        fun onItemClickInteraction(item: Task)
+    }
+
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
+        val cardView: CardView = mView.card
         val textTitle: TextView = mView.text_title
         val textNarration: TextView = mView.text_narration
         val textPeriod: TextView = mView.text_period
