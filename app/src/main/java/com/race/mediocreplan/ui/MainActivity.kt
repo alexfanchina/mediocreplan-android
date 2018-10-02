@@ -3,6 +3,7 @@ package com.race.mediocreplan.ui
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import com.race.mediocreplan.R
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -18,7 +19,20 @@ class MainActivity : AppCompatActivity() {
         bottom_navigation.setOnNavigationItemSelectedListener { menuItem ->
             switchTab(menuItem.itemId)
         }
-        switchTab(R.id.menu_navi_discover)
+        initTabs()
+    }
+
+    private fun initTabs() {
+        val discoverFragment = ExploreFragment()
+        val contributeFragment = ContributeFragment()
+        fragmentMap[R.id.menu_navi_discover] = discoverFragment
+        fragmentMap[R.id.menu_navi_contribute] = contributeFragment
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.add(R.id.fragment_container, discoverFragment)
+        fragmentTransaction.add(R.id.fragment_container, contributeFragment)
+        fragmentTransaction.show(discoverFragment)
+        fragmentTransaction.hide(contributeFragment)
+        fragmentTransaction.commit()
     }
 
     private fun switchTab(itemId: Int): Boolean {
@@ -26,12 +40,15 @@ class MainActivity : AppCompatActivity() {
         val fragment: Fragment?
         if (fragmentMap[itemId] != null) {
             fragment = fragmentMap[itemId]
+            Log.d(TAG, "select fragment " + fragment.toString())
         } else {
             fragment = when (itemId) {
                 R.id.menu_navi_discover -> ExploreFragment()
                 R.id.menu_navi_contribute -> ContributeFragment()
                 else -> return false
             }
+
+            Log.d(TAG, "construct and select new fragment " + fragment.toString())
             fragmentMap[itemId] = fragment
         }
         return if (fragment != null) {
@@ -42,10 +59,18 @@ class MainActivity : AppCompatActivity() {
                 else -> R.string.app_name
             })
             val fragmentTransaction = supportFragmentManager.beginTransaction()
-            fragmentTransaction.replace(R.id.fragment_container, fragment)
+            for (f in fragmentMap.values) {
+                if (f == fragment)
+                    fragmentTransaction.show(fragment)
+                else fragmentTransaction.hide(f)
+            }
             fragmentTransaction.commit()
             currentFragment = itemId
             true
         } else false
+    }
+
+    companion object {
+        const val TAG = "MainActivity"
     }
 }

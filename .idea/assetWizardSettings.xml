@@ -3,6 +3,56 @@
   <component name="WizardSettings">
     <option name="children">
       <map>
+        <entry key="imageWizard">
+          <value>
+            <PersistentState>
+              <option name="children">
+                <map>
+                  <entry key="imageAssetPanel">
+                    <value>
+                      <PersistentState>
+                        <option name="children">
+                          <map>
+                            <entry key="launcher">
+                              <value>
+                                <PersistentState>
+                                  <option name="children">
+                                    <map>
+                                      <entry key="foregroundImage">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="scalingPercent" value="46" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                    </map>
+                                  </option>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="backgroundAssetType" value="COLOR" />
+                                      <entry key="backgroundColor" value="212121" />
+                                      <entry key="foregroundImage" value="$USER_HOME$/Desktop/mediocre-plan/launcher.svg" />
+                                      <entry key="showGrid" value="true" />
+                                      <entry key="webIconShape" value="CIRCLE" />
+                                    </map>
+                                  </option>
+                                </PersistentState>
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </PersistentState>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </PersistentState>
+          </value>
+        </entry>
         <entry key="vectorWizard">
           <value>
             <PersistentState>
@@ -28,11 +78,10 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="height" value="16" />
-                            <entry key="outputName" value="ic_contributor_16dp" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="outputName" value="ic_launcher_foreground" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="$USER_HOME$/Downloads/outline-person-24px.svg" />
-                            <entry key="width" value="16" />
+                            <entry key="sourceFile" value="$USER_HOME$/Desktop/mediocre-plan/launcher.svg" />
                           </map>
                         </option>
                       </PersistentState>
