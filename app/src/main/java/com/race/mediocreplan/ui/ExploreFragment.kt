@@ -16,7 +16,7 @@ import com.race.mediocreplan.data.model.Task
 import com.race.mediocreplan.viewModel.TaskViewModel
 
 
-class ExploreFragment : Fragment(), IExploreView {
+class ExploreFragment : Fragment() {
 
     private var taskViewModel: TaskViewModel? = null
 
@@ -68,11 +68,6 @@ class ExploreFragment : Fragment(), IExploreView {
             }
         }
         return view
-    }
-
-    override fun onTasksLoad(tasks: List<Task>?) {
-        taskAdapter?.setItems(tasks)
-        taskAdapter?.notifyDataSetChanged()
     }
 
     companion object {

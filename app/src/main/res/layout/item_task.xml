@@ -72,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/card_drawable_padding"
                     android:drawableStart="@drawable/ic_period_16dp"
-                    android:drawableTint="@android:color/white"
+                    android:drawableTint="@android:color/secondary_text_dark"
                     android:textAppearance="@style/Task.TextAppearance.Description"
                     tools:text="1 week" />
 
@@ -82,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/card_drawable_padding"
                     android:drawableStart="@drawable/ic_popularity_16dp"
-                    android:drawableTint="@android:color/white"
+                    android:drawableTint="@android:color/secondary_text_dark"
                     android:textAppearance="@style/Task.TextAppearance.Description"
                     tools:text="Popularity: 24" />
 
@@ -92,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/card_drawable_padding"
                     android:drawableStart="@drawable/ic_contributor_16dp"
-                    android:drawableTint="@android:color/white"
+                    android:drawableTint="@android:color/secondary_text_dark"
                     android:textAppearance="@style/Task.TextAppearance.Description"
                     tools:text="Contributor: Race" />
 

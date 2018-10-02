@@ -1,5 +1,7 @@
 package com.race.mediocreplan.ui
 
+import android.content.res.ColorStateList
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.transition.AutoTransition
@@ -10,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.race.mediocreplan.R
 import com.race.mediocreplan.data.model.Task
+import com.race.mediocreplan.ui.utils.TaskItemUtils
 import kotlinx.android.synthetic.main.item_task.view.*
 
 class TaskRecyclerViewAdapter(
@@ -56,6 +59,17 @@ class TaskRecyclerViewAdapter(
         holder.textContributor.text = context.getString(R.string.desc_contributor, item.contributor)
         holder.textNarration.visibility = if (isExpanded) View.VISIBLE else View.GONE
         holder.itemView.isActivated = isExpanded
+        holder.cardView.setCardBackgroundColor(ColorStateList.valueOf(
+                context.getColor(TaskItemUtils.getCardColor(item.cardIdentifier))))
+        val textColor = context.getColor(TaskItemUtils.getTextColor(item.cardIdentifier))
+        holder.textTitle.setTextColor(textColor)
+        holder.textNarration.setTextColor(textColor)
+        holder.textPeriod.setTextColor(textColor)
+        holder.textPeriod.compoundDrawableTintList = ColorStateList.valueOf(textColor)
+        holder.textPopularity.setTextColor(textColor)
+        holder.textPopularity.compoundDrawableTintList = ColorStateList.valueOf(textColor)
+        holder.textContributor.setTextColor(textColor)
+        holder.textContributor.compoundDrawableTintList = ColorStateList.valueOf(textColor)
         with(holder.cardView) {
             tag = item
         }
