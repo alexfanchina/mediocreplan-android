@@ -1,6 +1,8 @@
 package com.race.mediocreplan.data.model
 
 import android.arch.persistence.room.TypeConverter
+import java.util.*
+
 
 class PeriodConverters {
     @TypeConverter
@@ -14,5 +16,15 @@ class PeriodConverters {
     @TypeConverter
     fun periodToPeriodInt(period: Task.Period): Int {
         return period.years * 365 + period.months * 30 + period.days
+    }
+
+    @TypeConverter
+    fun toDate(value: Long?): Date? {
+        return if (value == null) null else Date(value)
+    }
+
+    @TypeConverter
+    fun toLong(date: Date?): Long? {
+        return if (date == null) null else date.time
     }
 }

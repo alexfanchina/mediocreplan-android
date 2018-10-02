@@ -3,14 +3,16 @@ package com.race.mediocreplan.data.model
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
-import android.arch.persistence.room.TypeConverter
 import android.content.Context
+import android.os.Parcel
+import android.os.Parcelable
 import android.support.annotation.NonNull
 import com.google.gson.annotations.SerializedName
 import com.race.mediocreplan.R
+import java.util.*
 
 @Entity(tableName = "task_table")
-data class Task(@PrimaryKey @NonNull @ColumnInfo(name = "_id") @SerializedName("task_id") var _id: Int) {
+data class Task(@PrimaryKey @NonNull @ColumnInfo(name = "_id") @SerializedName("task_id") var _id: Int) : Parcelable {
     @ColumnInfo(name = "title")
     @SerializedName("title")
     var title: String = ""
@@ -29,10 +31,29 @@ data class Task(@PrimaryKey @NonNull @ColumnInfo(name = "_id") @SerializedName("
     @ColumnInfo(name = "contributor")
     @SerializedName("contributor")
     var contributor: String = ""
+    @ColumnInfo(name = "added")
+    var added: Boolean = false
+    @ColumnInfo(name = "start_date")
+    var startTime: Date? = Date(Long.MIN_VALUE)
+
+    constructor(parcel: Parcel) : this(parcel.readInt()) {
+        title = parcel.readString()!!
+        narration = parcel.readString()!!
+        popularity = parcel.readInt()
+        cardIdentifier = parcel.readString()!!
+        contributor = parcel.readString()!!
+        added = parcel.readByte() != 0.toByte()
+    }
 
     class Period(@SerializedName("days") var days: Int = 0,
                  @SerializedName("months") var months: Int = 0,
-                 @SerializedName("years") var years: Int = 0) {
+                 @SerializedName("years") var years: Int = 0) : Parcelable {
+
+        constructor(parcel: Parcel) : this(
+                parcel.readInt(),
+                parcel.readInt(),
+                parcel.readInt())
+
         fun toString(context: Context): String {
             when {
                 years > 0 -> return context.resources.getQuantityString(R.plurals.year_for_period, years, years)
@@ -41,6 +62,50 @@ data class Task(@PrimaryKey @NonNull @ColumnInfo(name = "_id") @SerializedName("
                 days > 0 -> return context.resources.getQuantityString(R.plurals.day_for_period, days, days)
             }
             return "null"
+        }
+
+        override fun writeToParcel(parcel: Parcel, flags: Int) {
+            parcel.writeInt(days)
+            parcel.writeInt(months)
+            parcel.writeInt(years)
+        }
+
+        override fun describeContents(): Int {
+            return 0
+        }
+
+        companion object CREATOR : Parcelable.Creator<Period> {
+            override fun createFromParcel(parcel: Parcel): Period {
+                return Period(parcel)
+            }
+
+            override fun newArray(size: Int): Array<Period?> {
+                return arrayOfNulls(size)
+            }
+        }
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(_id)
+        parcel.writeString(title)
+        parcel.writeString(narration)
+        parcel.writeInt(popularity)
+        parcel.writeString(cardIdentifier)
+        parcel.writeString(contributor)
+        parcel.writeByte(if (added) 1 else 0)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<Task> {
+        override fun createFromParcel(parcel: Parcel): Task {
+            return Task(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Task?> {
+            return arrayOfNulls(size)
         }
     }
 }

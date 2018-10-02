@@ -8,6 +8,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="TaskTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowMinWidthMajor">96%</item>
+        <item name="android:windowMinWidthMinor">96%</item>
+    </style>
+
     <style name="Task.TextAppearance.Title" parent="TextAppearance.AppCompat.Title.Inverse" />
 
     <style name="Task.TextAppearance.Description" parent="TextAppearance.AppCompat.Small.Inverse" />

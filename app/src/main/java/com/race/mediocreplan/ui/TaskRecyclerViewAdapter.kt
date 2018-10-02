@@ -39,11 +39,11 @@ class TaskRecyclerViewAdapter(
                 RecyclerView.NO_POSITION else holder.adapterPosition
             mListener?.onItemClickInteraction(item)
             // TODO: fix the transition
-            val transition = AutoTransition()
-            transition.duration = 200
-            TransitionManager.beginDelayedTransition(holder.mView as ViewGroup, transition)
-//            TransitionManager.beginDelayedTransition(recyclerView)
-            notifyDataSetChanged()
+//            val transition = AutoTransition()
+//            transition.duration = 200
+//            TransitionManager.beginDelayedTransition(holder.mView as ViewGroup, transition)
+////            TransitionManager.beginDelayedTransition(recyclerView)
+//            notifyDataSetChanged()
         }
         return holder
     }

@@ -55,6 +55,14 @@ class TaskRepository {
         } else Log.e(TAG, "Batch Insert while mTaskDao is null")
     }
 
+    fun updateAdded(task: Task) {
+        UpdateAddedTask(mTaskDao!!).execute(task)
+    }
+
+    fun updateStarted(task: Task) {
+        UpdateStartedTask(mTaskDao!!).execute(task)
+    }
+
     private class InsertAsyncTask internal constructor(private val mAsyncTaskDao: TaskDao) : AsyncTask<Task, Void, Void>() {
         override fun doInBackground(vararg params: Task?): Void? {
             if (params[0] is Task) mAsyncTaskDao.insertTask(params[0]!!)
@@ -67,6 +75,23 @@ class TaskRepository {
         override fun doInBackground(vararg params: List<Task>?): Void? {
             if (params[0] != null) mAsyncTaskDao.insertTasks(*params[0]!!.toTypedArray())
             else Log.e("BatchInsertAsyncTask", "Batch insert param cannot be null")
+            return null
+        }
+    }
+
+    private class UpdateAddedTask internal constructor(private val mAsyncTaskDao: TaskDao) : AsyncTask<Task, Void, Void>() {
+        override fun doInBackground(vararg params: Task): Void? {
+            val task = params[0]
+            mAsyncTaskDao.updateTaskAdded(task._id, task.added)
+            return null
+        }
+    }
+
+    private class UpdateStartedTask internal constructor(private val mAsyncTaskDao: TaskDao) : AsyncTask<Task, Void, Void>() {
+        override fun doInBackground(vararg params: Task): Void? {
+            val task = params[0]
+            if (task.startTime != null)
+                mAsyncTaskDao.updateStartedTask(task._id, task.startTime!!)
             return null
         }
     }

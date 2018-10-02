@@ -10,5 +10,5 @@
     android:clipToPadding="false"
     android:padding="@dimen/card_recycler_padding"
     app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-    tools:context=".ui.ExploreFragment"
+    tools:context=".ui.DiscoverFragment"
     tools:listitem="@layout/item_task" />

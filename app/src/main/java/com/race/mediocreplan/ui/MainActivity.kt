@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity() {
     private var currentFragment: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // TODO: UI bug when rotating screen
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initTabs() {
-        val discoverFragment = ExploreFragment()
+        val discoverFragment = DiscoverFragment()
         val contributeFragment = ContributeFragment()
         fragmentMap[R.id.menu_navi_discover] = discoverFragment
         fragmentMap[R.id.menu_navi_contribute] = contributeFragment
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.show(discoverFragment)
         fragmentTransaction.hide(contributeFragment)
         fragmentTransaction.commit()
+        action_bar.title = getString(R.string.navi_discover)
     }
 
     private fun switchTab(itemId: Int): Boolean {
@@ -43,7 +45,7 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, "select fragment " + fragment.toString())
         } else {
             fragment = when (itemId) {
-                R.id.menu_navi_discover -> ExploreFragment()
+                R.id.menu_navi_discover -> DiscoverFragment()
                 R.id.menu_navi_contribute -> ContributeFragment()
                 else -> return false
             }

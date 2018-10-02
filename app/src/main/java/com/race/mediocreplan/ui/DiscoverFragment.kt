@@ -16,7 +16,7 @@ import com.race.mediocreplan.data.model.Task
 import com.race.mediocreplan.viewModel.TaskViewModel
 
 
-class ExploreFragment : Fragment() {
+class DiscoverFragment : Fragment() {
 
     private var taskViewModel: TaskViewModel? = null
 
@@ -34,6 +34,7 @@ class ExploreFragment : Fragment() {
 
         taskViewModel = TaskViewModel.create(this, activity!!.application)
         taskViewModel!!.getAllTasks().observe(this, Observer { tasks ->
+            Log.d(TAG, "all tasks live data updated")
             if (taskAdapter != null) {
                 taskAdapter!!.setItems(tasks)
                 taskAdapter!!.notifyDataSetChanged()
@@ -60,6 +61,7 @@ class ExploreFragment : Fragment() {
                         object : TaskRecyclerViewAdapter.OnItemClickInteractionListener {
                             override fun onItemClickInteraction(item: Task) {
                                 Log.d(TAG, "$item clicked")
+                                TaskDetailActivity.actionStart(context, item)
                             }
                         })
                 taskAdapter?.setHasStableIds(true)
@@ -74,12 +76,12 @@ class ExploreFragment : Fragment() {
 
         // TODO: Customize parameter argument names
         const val ARG_COLUMN_COUNT = "column-count"
-        const val TAG = "ExploreFragment"
+        const val TAG = "DiscoverFragment"
 
         // TODO: Customize parameter initialization
         @JvmStatic
         fun newInstance(columnCount: Int) =
-                ExploreFragment().apply {
+                DiscoverFragment().apply {
                     arguments = Bundle().apply {
                         putInt(ARG_COLUMN_COUNT, columnCount)
                     }
