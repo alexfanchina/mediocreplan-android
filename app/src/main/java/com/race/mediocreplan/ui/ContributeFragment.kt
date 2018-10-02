@@ -6,8 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.race.mediocreplan.R
-import com.race.mediocreplan.ui.utils.SpannedUtils
 import kotlinx.android.synthetic.main.fragment_contribute.view.*
+import android.content.Intent
+import android.net.Uri
 
 
 class ContributeFragment : Fragment() {
@@ -19,11 +20,16 @@ class ContributeFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_contribute, container, false)
-//        view.text.text = SpannedUtils.fromHtml(getString(R.string.why_mediocre))
-//        view.text_navi_intro.setOnClickListener { v ->
-//            // TODO: start activity IntroActivity
-//        }
-        // TODO: fix html bug and add email onclick event
+        view.button_send_email.setOnClickListener { _ ->
+            val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                    "mailto", "takeasnaprace@gmail.com", null))
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Contribute to Mediocre Plan")
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "")
+            startActivity(Intent.createChooser(emailIntent, getString(R.string.title_send_email_intent)))
+        }
+        view.text_navi_intro.setOnClickListener { _ ->
+            IntroActivity.actionStart(context!!)
+        }
         return view
     }
 

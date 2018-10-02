@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        android:title="@string/title_intro"
+        app:title="@string/title_intro"
         app:titleTextColor="@android:color/white" />
 
     <ScrollView
