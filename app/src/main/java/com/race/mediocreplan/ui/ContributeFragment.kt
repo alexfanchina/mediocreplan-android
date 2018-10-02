@@ -19,7 +19,10 @@ class ContributeFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_contribute, container, false)
-        view.text.text = SpannedUtils.fromHtml(getString(R.string.why_mediocre))
+//        view.text.text = SpannedUtils.fromHtml(getString(R.string.why_mediocre))
+//        view.text_navi_intro.setOnClickListener { v ->
+//            // TODO: start activity IntroActivity
+//        }
         // TODO: fix html bug and add email onclick event
         return view
     }

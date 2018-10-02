@@ -6,12 +6,42 @@
     tools:background="@color/colorPrimaryDark"
     tools:context=".ui.ContributeFragment">
 
-    <TextView
-        android:id="@+id/text"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small.Inverse"
-        tools:text="@string/why_mediocre" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small.Inverse"
+            android:text="@string/contribution_notice" />
+
+        <Button
+            android:id="@+id/button_send_email"
+            style="@style/Task.Button.Positive"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:layout_marginStart="@dimen/text_margin"
+            android:text="@string/navi_send_email" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/text_navi_intro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/text_margin"
+            android:text="@string/navi_title_intro"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small.Inverse" />
+
+    </LinearLayout>
 
 </ScrollView>

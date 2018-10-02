@@ -4,6 +4,9 @@
     <string name="navi_discover">Discover</string>
     <string name="navi_plan">Plan</string>
     <string name="navi_contribute">Contribute</string>
+    <string name="navi_send_email">Send Email</string>
+    <string name="navi_title_intro">Why we made this app</string>
+    <string name="title_intro">Why Mediocre?</string>
 
     <string name="action_start_now">Start Now</string>
 

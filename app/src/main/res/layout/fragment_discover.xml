@@ -6,6 +6,7 @@
     android:name="com.race.mediocreplan.ui.TaskFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
     android:clipToPadding="false"
     android:padding="@dimen/card_recycler_padding"
     app:layoutManager="android.support.v7.widget.LinearLayoutManager"
