@@ -1,26 +1,38 @@
 package com.race.mediocreplan.data.model
 
+import android.arch.persistence.room.ColumnInfo
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
+import android.arch.persistence.room.TypeConverter
 import android.content.Context
+import android.support.annotation.NonNull
 import com.google.gson.annotations.SerializedName
 import com.race.mediocreplan.R
 
-data class Task(@SerializedName("task_id") val _id: Int) {
+@Entity(tableName = "task_table")
+data class Task(@PrimaryKey @NonNull @ColumnInfo(name = "_id") @SerializedName("task_id") var _id: Int) {
+    @ColumnInfo(name = "title")
     @SerializedName("title")
-    val title: String = ""
+    var title: String = ""
+    @ColumnInfo(name = "narration")
     @SerializedName("narration")
-    val narration: String = ""
+    var narration: String = ""
+    @ColumnInfo(name = "duration")
     @SerializedName("duration")
-    val duration: Period = Period()
+    var duration: Period = Period()
+    @ColumnInfo(name = "popularity")
     @SerializedName("popularity")
-    val popularity: Int = 0
-    @SerializedName("cardIdentifier")
-    val cardIdentifier: String = ""
+    var popularity: Int = 0
+    @ColumnInfo(name = "cardIdentifier")
+    @SerializedName("card_identifier")
+    var cardIdentifier: String = ""
+    @ColumnInfo(name = "contributor")
     @SerializedName("contributor")
-    val contributor: String = ""
+    var contributor: String = ""
 
-    inner class Period(@SerializedName("days") val days: Int = 0,
-                       @SerializedName("months") val months: Int = 0,
-                       @SerializedName("years") val years: Int = 0) {
+    class Period(@SerializedName("days") var days: Int = 0,
+                 @SerializedName("months") var months: Int = 0,
+                 @SerializedName("years") var years: Int = 0) {
         fun toString(context: Context): String {
             when {
                 years > 0 -> return context.resources.getQuantityString(R.plurals.year_for_period, years, years)

@@ -1,24 +1,24 @@
 package com.race.mediocreplan.ui
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SimpleItemAnimator
-import android.transition.TransitionManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.race.mediocreplan.R
 import com.race.mediocreplan.data.model.Task
-import com.race.mediocreplan.presenter.ExplorePresenter
+import com.race.mediocreplan.viewModel.TaskViewModel
 
 
 class ExploreFragment : Fragment(), IExploreView {
 
-    private val iPresenter = ExplorePresenter(this)
+    private var taskViewModel: TaskViewModel? = null
 
     // TODO: Customize parameters
     private var columnCount = 1
@@ -31,6 +31,16 @@ class ExploreFragment : Fragment(), IExploreView {
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
         }
+
+        taskViewModel = TaskViewModel.create(this, activity!!.application)
+        taskViewModel!!.getAllTasks().observe(this, Observer { tasks ->
+            if (taskAdapter != null) {
+                taskAdapter!!.setItems(tasks)
+                taskAdapter!!.notifyDataSetChanged()
+            } else {
+                Log.e(TAG, "taskAdapter is null")
+            }
+        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +67,6 @@ class ExploreFragment : Fragment(), IExploreView {
                 // TODO: Read items from local data
             }
         }
-        iPresenter.getAllTasks()
         return view
     }
 
