@@ -9,7 +9,7 @@ import com.race.mediocreplan.data.model.Task
 import com.race.mediocreplan.viewModel.TaskViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), PlanFragment.OnListFragmentInteractionListener {
+class MainActivity : AppCompatActivity(), OnListFragmentInteractionListener {
 
     private val fragmentMap: HashMap<Int, Fragment> = HashMap()
     private var currentFragment: Int? = null

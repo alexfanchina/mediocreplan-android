@@ -11,7 +11,6 @@ import android.widget.Button
 import android.widget.TextView
 import com.race.mediocreplan.R
 import com.race.mediocreplan.data.model.Task
-import com.race.mediocreplan.ui.PlanFragment.OnListFragmentInteractionListener
 import com.race.mediocreplan.ui.utils.TaskItemUtils
 import kotlinx.android.synthetic.main.item_section_title.view.*
 import kotlinx.android.synthetic.main.item_task.view.*

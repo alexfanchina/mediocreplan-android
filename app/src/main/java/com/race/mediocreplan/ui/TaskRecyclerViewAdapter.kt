@@ -13,9 +13,7 @@ import com.race.mediocreplan.data.model.Task
 import com.race.mediocreplan.ui.utils.TaskItemUtils
 import kotlinx.android.synthetic.main.item_task.view.*
 
-class TaskRecyclerViewAdapter(
-        private val recyclerView: RecyclerView,
-        private val mListener: OnItemClickInteractionListener?)
+class TaskRecyclerViewAdapter(private val mListener: OnListFragmentInteractionListener)
     : RecyclerView.Adapter<TaskRecyclerViewAdapter.ViewHolder>() {
 
     private var items: List<Task> = ArrayList()
@@ -32,20 +30,20 @@ class TaskRecyclerViewAdapter(
         val holder = ViewHolder(view)
         holder.cardView.setOnClickListener { v ->
             val item = v.tag as Task
-            val prevExpandedPosition = mExpandedPosition
-            mExpandedPosition = if (holder.adapterPosition == mExpandedPosition)
-                RecyclerView.NO_POSITION else holder.adapterPosition
-            mListener?.onItemClick(item)
+//            val prevExpandedPosition = mExpandedPosition
+//            mExpandedPosition = if (holder.adapterPosition == mExpandedPosition)
+//                RecyclerView.NO_POSITION else holder.adapterPosition
+            mListener.onTaskClick(item)
             // TODO: fix the transition
 //            val transition = AutoTransition()
 //            transition.duration = 200
 //            TransitionManager.beginDelayedTransition(holder.mView as ViewGroup, transition)
-////            TransitionManager.beginDelayedTransition(recyclerView)
+//            TransitionManager.beginDelayedTransition(recyclerView)
 //            notifyDataSetChanged()
         }
         holder.buttonStartNow.setOnClickListener { _ ->
             val item = items[holder.adapterPosition]
-            mListener?.onItemButtonStartNowClicked(item)
+            mListener.onTaskButtonStartNowClick(item)
         }
         return holder
     }
@@ -92,11 +90,6 @@ class TaskRecyclerViewAdapter(
     }
 
     override fun getItemCount(): Int = items.size
-
-    interface OnItemClickInteractionListener {
-        fun onItemClick(item: Task)
-        fun onItemButtonStartNowClicked(item: Task)
-    }
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val cardView: CardView = mView.card

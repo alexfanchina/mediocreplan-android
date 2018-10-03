@@ -12,18 +12,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.race.mediocreplan.R
-import com.race.mediocreplan.data.model.Task
 import com.race.mediocreplan.viewModel.TaskViewModel
 
 
 class PlanFragment : Fragment() {
 
+    private var columnCount = 1
     private lateinit var taskViewModel: TaskViewModel
     private var myTaskAdapter: MyTaskRecyclerViewAdapter? = null
-
-    // TODO: Customize parameters
-    private var columnCount = 1
-
     private var listener: OnListFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,32 +71,10 @@ class PlanFragment : Fragment() {
         listener = null
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson
-     * [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html)
-     * for more information.
-     */
-    interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        fun onTaskClick(item: Task?)
-
-        fun onTaskButtonStartNowClick(item: Task?)
-    }
-
     companion object {
-
         const val TAG = "PlanFragment"
-
-        // TODO: Customize parameter argument names
         const val ARG_COLUMN_COUNT = "column-count"
 
-        // TODO: Customize parameter initialization
         @JvmStatic
         fun newInstance(columnCount: Int) =
                 PlanFragment().apply {

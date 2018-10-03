@@ -1,6 +1,7 @@
 package com.race.mediocreplan.ui
 
 import android.arch.lifecycle.Observer
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
@@ -19,12 +20,10 @@ import com.race.mediocreplan.viewModel.TaskViewModel
 
 class DiscoverFragment : Fragment() {
 
-    private var taskViewModel: TaskViewModel? = null
-
-    // TODO: Customize parameters
     private var columnCount = 1
-
+    private var taskViewModel: TaskViewModel? = null
     private var taskAdapter: TaskRecyclerViewAdapter? = null
+    private var listener: OnListFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,33 +56,33 @@ class DiscoverFragment : Fragment() {
                     else -> GridLayoutManager(context, columnCount)
                 }
                 (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-                taskAdapter = TaskRecyclerViewAdapter(
-                        view,
-                        object : TaskRecyclerViewAdapter.OnItemClickInteractionListener {
-                            override fun onItemClick(item: Task) {
-                                Log.d(TAG, "$item clicked " + Gson().toJson(item))
-                                TaskDetailActivity.actionStart(context, item)
-                            }
-
-                            override fun onItemButtonStartNowClicked(item: Task) {
-                                taskViewModel!!.startTask(item)
-                            }
-                        })
+                taskAdapter = TaskRecyclerViewAdapter(listener!!)
                 taskAdapter?.setHasStableIds(true)
                 adapter = taskAdapter
-                // TODO: Read items from local data
             }
         }
         return view
     }
 
-    companion object {
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnListFragmentInteractionListener) {
+            listener = context
+        } else {
+            throw RuntimeException(context.toString() + " must implement OnItemClickInteractionListener")
+        }
+    }
 
-        // TODO: Customize parameter argument names
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
+    }
+
+
+    companion object {
         const val ARG_COLUMN_COUNT = "column-count"
         const val TAG = "DiscoverFragment"
 
-        // TODO: Customize parameter initialization
         @JvmStatic
         fun newInstance(columnCount: Int) =
                 DiscoverFragment().apply {
