@@ -3,20 +3,18 @@
 
     <string name="contribution_notice">Send emails to our developer team to contribute your cool tasks. </string>
 
-    <string name="why_mediocre">
+    <string name="why_mediocre"><![CDATA[
         <h1>The desperate situation of this era is boring.</h1>
         <p>The majority of us settle for simple boring lives till we die. Even most people don\'t do one thing well in their lives.
         However, everything we do makes sense, and doing nothing is actually doing something. Where the future lies is a problem in Schrödinger\'s cat state, because we are the BIG X\'s that matter.</p>
         <h1>Be cool.</h1>
-        <p>We have no excuse to be mediocre anymore. What we need to do right now is simply –</p>
-        <ul>
-        <li>to forget about work, think about future;</li>
-        <li>to be cool, be the one you admire, and do the things as you just want to;</li>
-        <li>not to let others teach you who you are and what you are supposed to do.
-        And that\'s why we made Mediocre Plan app.</li>
-        </ul>
+        <p>We have no excuse to be mediocre anymore. What we need to do right now is simply: <br/>
+        - to forget about work, think about future;<br/>
+        - to be cool, be the one you admire, and do the things as you just want to;<br/>
+        - not to let others teach you who you are and what you are supposed to do.<br/>
+        And that\'s why we made Mediocre Plan app.</p>
         <h1>Let us know if you have a great plan in your mind.</h1>
-        <p>If you want to do something cool, perhaps we can figure out a route together.
-        Email me at: takeasnaprace@gmail.com</p>
+        <p>If you want to do something cool, perhaps we can figure out a route together.<br/>
+        Email me at: <b>takeasnaprace@gmail.com</b></p>]]>
     </string>
 </resources>

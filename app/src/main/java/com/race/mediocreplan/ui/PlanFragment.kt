@@ -49,6 +49,15 @@ class PlanFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
+                addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        if (layoutManager is LinearLayoutManager) {
+                            (layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition() == 0
+                        } else {
+                            (layoutManager as GridLayoutManager).findFirstCompletelyVisibleItemPosition() == 0
+                        }
+                    }
+                })
                 myTaskAdapter = MyTaskRecyclerViewAdapter(listener!!)
                 Log.d(TAG, "myTaskRecyclerViewAdapter initiated")
                 adapter = myTaskAdapter
