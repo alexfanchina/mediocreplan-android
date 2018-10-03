@@ -14,6 +14,15 @@ abstract class TaskItemUtils {
             }
         }
 
+        fun getButtonColor(cardIdentifier: String): Int {
+            return when (cardIdentifier) {
+                "RedTaskCard" -> R.color.redTaskButton
+                "CyanTaskCard" -> R.color.cyanTaskButton
+                "WhiteTaskCard" -> R.color.whiteTaskButton
+                else -> R.color.redTaskCard
+            }
+        }
+
         fun getTextColor(cardIdentifier: String): Int {
             return when (cardIdentifier) {
                 "RedTaskCard" -> R.color.redTaskText

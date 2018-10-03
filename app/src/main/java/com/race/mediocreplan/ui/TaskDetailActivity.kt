@@ -1,11 +1,14 @@
 package com.race.mediocreplan.ui
 
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.google.gson.Gson
 import com.race.mediocreplan.R
 import com.race.mediocreplan.data.model.Task
 import com.race.mediocreplan.ui.utils.TaskItemUtils
@@ -23,12 +26,11 @@ class TaskDetailActivity : AppCompatActivity() {
         taskViewModel = TaskViewModel.create(this, application)
         task = intent.getParcelableExtra(EXTRA_TASK)
         Log.d(TAG, "get parcelable extra " + task.toString())
+        initStyle()
+        loadData()
+    }
 
-        text_title.text = task.title
-        text_narration.text = task.narration
-        text_period.text = task.duration.toString(this)
-        text_popularity.text = getString(R.string.desc_popularity, task.popularity)
-        text_contributor.text = getString(R.string.desc_contributor, task.contributor)
+    private fun initStyle() {
         card.setCardBackgroundColor(ColorStateList.valueOf(
                 getColor(TaskItemUtils.getCardColor(task.cardIdentifier))))
         val textColor = getColor(TaskItemUtils.getTextColor(task.cardIdentifier))
@@ -40,8 +42,46 @@ class TaskDetailActivity : AppCompatActivity() {
         text_popularity.compoundDrawableTintList = ColorStateList.valueOf(textColor)
         text_contributor.setTextColor(textColor)
         text_contributor.compoundDrawableTintList = ColorStateList.valueOf(textColor)
-        button_start_now.setOnClickListener { v -> taskViewModel.startTask(task) }
-        button_add_to_plan.setOnClickListener { v -> taskViewModel.addTaskToPlan(task) }
+        val buttonColor = getColor(TaskItemUtils.getButtonColor(task.cardIdentifier))
+        button_start_now.backgroundTintList = ColorStateList.valueOf(buttonColor)
+        button_add_to_plan.backgroundTintList = ColorStateList.valueOf(buttonColor)
+    }
+
+    private fun loadData() {
+        Log.d(TAG, "load " + Gson().toJson(task))
+        text_title.text = task.title
+        text_narration.text = task.narration
+        text_period.text = task.duration.toString(this)
+        text_popularity.text = getString(R.string.desc_popularity, task.popularity)
+        text_contributor.text = getString(R.string.desc_contributor, task.contributor)
+        button_start_now.setOnClickListener { v ->
+            taskViewModel.startTask(task)
+            loadData()
+        }
+        val timeUsed = task.getTimeUsed()
+        if (timeUsed < 0) {
+            button_start_now.text = getString(R.string.action_start_now)
+            if (!task.added) {
+                button_add_to_plan.text = getString(R.string.action_add_to_plan)
+                button_add_to_plan.setOnClickListener { _ ->
+                    taskViewModel.addTaskToPlan(task)
+                    loadData()
+                }
+            } else {
+                button_add_to_plan.text = getString(R.string.action_remove_from_plan)
+                button_add_to_plan.setOnClickListener { _ ->
+                    taskViewModel.removeTaskFromPlan(task)
+                    loadData()
+                }
+            }
+        } else {
+            button_start_now.text = getString(R.string.action_restart)
+            button_add_to_plan.text = getString(R.string.action_abolish)
+            button_add_to_plan.setOnClickListener { _ ->
+                taskViewModel.abolishTask(task)
+                loadData()
+            }
+        }
     }
 
     companion object {

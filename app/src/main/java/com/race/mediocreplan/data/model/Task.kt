@@ -34,15 +34,22 @@ data class Task(@PrimaryKey @NonNull @ColumnInfo(name = "_id") @SerializedName("
     @ColumnInfo(name = "added")
     var added: Boolean = false
     @ColumnInfo(name = "start_date")
-    var startTime: Date? = Date(Long.MIN_VALUE)
+    var startTime: Date? = Date(Long.MAX_VALUE)
+
+    fun getTimeUsed(): Long {
+        return if (startTime == null) -1
+        else Date().time - startTime!!.time
+    }
 
     constructor(parcel: Parcel) : this(parcel.readInt()) {
         title = parcel.readString()!!
         narration = parcel.readString()!!
+        duration = parcel.readParcelable(Period::class.java.classLoader)!!
         popularity = parcel.readInt()
         cardIdentifier = parcel.readString()!!
         contributor = parcel.readString()!!
         added = parcel.readByte() != 0.toByte()
+        startTime = Date(parcel.readLong())
     }
 
     class Period(@SerializedName("days") var days: Int = 0,
@@ -89,10 +96,12 @@ data class Task(@PrimaryKey @NonNull @ColumnInfo(name = "_id") @SerializedName("
         parcel.writeInt(_id)
         parcel.writeString(title)
         parcel.writeString(narration)
+        parcel.writeParcelable(duration, flags)
         parcel.writeInt(popularity)
         parcel.writeString(cardIdentifier)
         parcel.writeString(contributor)
         parcel.writeByte(if (added) 1 else 0)
+        parcel.writeLong(if (startTime != null) startTime!!.time else Long.MAX_VALUE)
     }
 
     override fun describeContents(): Int {

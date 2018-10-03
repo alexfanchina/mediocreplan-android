@@ -24,6 +24,7 @@
         <Button
             android:id="@+id/button_send_email"
             style="@style/Task.Button.Positive"
+            android:backgroundTint="@color/colorAccent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/text_margin"
@@ -36,14 +37,15 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-        <TextView
+        <Button
             android:id="@+id/text_navi_intro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="@dimen/text_margin"
+            android:layout_margin="@dimen/card_button_margin"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:text="@string/navi_title_intro"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small.Inverse" />
+            android:textColor="@android:color/secondary_text_dark" />
 
     </LinearLayout>
 

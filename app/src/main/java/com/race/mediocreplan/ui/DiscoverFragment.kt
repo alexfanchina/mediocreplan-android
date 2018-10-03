@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.gson.Gson
 import com.race.mediocreplan.R
 import com.race.mediocreplan.data.model.Task
 import com.race.mediocreplan.viewModel.TaskViewModel
@@ -59,9 +60,13 @@ class DiscoverFragment : Fragment() {
                 taskAdapter = TaskRecyclerViewAdapter(
                         view,
                         object : TaskRecyclerViewAdapter.OnItemClickInteractionListener {
-                            override fun onItemClickInteraction(item: Task) {
-                                Log.d(TAG, "$item clicked")
+                            override fun onItemClick(item: Task) {
+                                Log.d(TAG, "$item clicked " + Gson().toJson(item))
                                 TaskDetailActivity.actionStart(context, item)
+                            }
+
+                            override fun onItemButtonStartNowClicked(item: Task) {
+                                taskViewModel!!.startTask(item)
                             }
                         })
                 taskAdapter?.setHasStableIds(true)

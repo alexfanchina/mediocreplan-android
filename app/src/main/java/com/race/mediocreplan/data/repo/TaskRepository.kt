@@ -7,6 +7,7 @@ import com.race.mediocreplan.data.dao.TaskDatabase
 import com.race.mediocreplan.data.model.Task
 import android.os.AsyncTask
 import android.util.Log
+import com.google.gson.Gson
 import com.race.mediocreplan.data.RetrofitClientInstance
 import com.race.mediocreplan.data.api.MediocrePlanService
 import retrofit2.Call
@@ -56,25 +57,33 @@ class TaskRepository {
     }
 
     fun updateAdded(task: Task) {
-        UpdateAddedTask(mTaskDao!!).execute(task)
+        if (mTaskDao != null) {
+            UpdateAddedTask(mTaskDao!!).execute(task)
+            Log.d(TAG, "Update Added " + task.toString())
+        } else Log.e(TAG, "Update Added while mTaskDao is null")
     }
 
     fun updateStarted(task: Task) {
-        UpdateStartedTask(mTaskDao!!).execute(task)
+        if (mTaskDao != null) {
+            UpdateStartedTask(mTaskDao!!).execute(task)
+            Log.d(TAG, "Update Started " + task.toString())
+        } else Log.e(TAG, "Update Started while mTaskDao is null")
     }
 
     private class InsertAsyncTask internal constructor(private val mAsyncTaskDao: TaskDao) : AsyncTask<Task, Void, Void>() {
         override fun doInBackground(vararg params: Task?): Void? {
             if (params[0] is Task) mAsyncTaskDao.insertTask(params[0]!!)
-            else Log.e("InsertAsyncTask", "Insert param cannot be null")
+            else Log.e("InsertAsyncTask", "insert param cannot be null")
             return null
         }
     }
 
     private class BatchInsertAsyncTask internal constructor(private val mAsyncTaskDao: TaskDao) : AsyncTask<List<Task>, Void, Void>() {
         override fun doInBackground(vararg params: List<Task>?): Void? {
-            if (params[0] != null) mAsyncTaskDao.insertTasks(*params[0]!!.toTypedArray())
-            else Log.e("BatchInsertAsyncTask", "Batch insert param cannot be null")
+            if (params[0] != null) {
+                mAsyncTaskDao.insertTasks(*params[0]!!.toTypedArray())
+                Log.d("BatchInsertAsyncTask", "succeed " + Gson().toJson(params))
+            } else Log.e("BatchInsertAsyncTask", "batch insert param cannot be null")
             return null
         }
     }
@@ -90,8 +99,10 @@ class TaskRepository {
     private class UpdateStartedTask internal constructor(private val mAsyncTaskDao: TaskDao) : AsyncTask<Task, Void, Void>() {
         override fun doInBackground(vararg params: Task): Void? {
             val task = params[0]
-            if (task.startTime != null)
+            if (task.startTime != null) {
                 mAsyncTaskDao.updateStartedTask(task._id, task.startTime!!)
+                Log.d("UpdateStartedTask", "succeed " + task.startTime.toString())
+            } else Log.e("UpdateStartedTask", "startTime cannot be null")
             return null
         }
     }

@@ -15,7 +15,7 @@ interface TaskDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertTask(task: Task)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertTasks(vararg tasks: Task)
 
     @Query("UPDATE task_table SET added = :added WHERE _id = :id")

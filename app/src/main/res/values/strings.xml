@@ -10,7 +10,11 @@
     <string name="title_send_email_intent">Send Email…</string>
 
     <string name="action_start_now">Start Now</string>
+    <string name="action_restart">Restart</string>
+    <string name="hint_in_progress">In Progress</string>
     <string name="action_add_to_plan">Add to Plan</string>
+    <string name="action_remove_from_plan">Remove from Plan</string>
+    <string name="action_abolish">Abolish</string>
 
     <plurals name="year_for_period">
         <item quantity="one">%d year</item>

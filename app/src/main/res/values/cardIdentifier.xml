@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="whiteTaskCard">#f5f5f5</color>
+    <color name="whiteTaskCard">#ffffff</color>
     <color name="redTaskCard">@color/colorAccent</color>
     <color name="cyanTaskCard">#5de7c8</color>
 
-    <color name="whiteTaskText">@android:color/primary_text_light</color>
-    <color name="redTaskText">@android:color/primary_text_dark</color>
-    <color name="cyanTaskText">@android:color/primary_text_light</color>
+    <color name="whiteTaskButton">#bdbdbd</color>
+    <color name="redTaskButton">#ce2844</color>
+    <color name="cyanTaskButton">#2ebca4</color>
+
+    <color name="whiteTaskText">#212121</color>
+    <color name="redTaskText">#ffffff</color>
+    <color name="cyanTaskText">#212121</color>
 </resources>

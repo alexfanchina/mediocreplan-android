@@ -1,14 +1,12 @@
 package com.race.mediocreplan.ui
 
 import android.content.res.ColorStateList
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
-import android.transition.AutoTransition
-import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import com.race.mediocreplan.R
 import com.race.mediocreplan.data.model.Task
@@ -37,13 +35,17 @@ class TaskRecyclerViewAdapter(
             val prevExpandedPosition = mExpandedPosition
             mExpandedPosition = if (holder.adapterPosition == mExpandedPosition)
                 RecyclerView.NO_POSITION else holder.adapterPosition
-            mListener?.onItemClickInteraction(item)
+            mListener?.onItemClick(item)
             // TODO: fix the transition
 //            val transition = AutoTransition()
 //            transition.duration = 200
 //            TransitionManager.beginDelayedTransition(holder.mView as ViewGroup, transition)
 ////            TransitionManager.beginDelayedTransition(recyclerView)
 //            notifyDataSetChanged()
+        }
+        holder.buttonStartNow.setOnClickListener { _ ->
+            val item = items[holder.adapterPosition]
+            mListener?.onItemButtonStartNowClicked(item)
         }
         return holder
     }
@@ -70,6 +72,16 @@ class TaskRecyclerViewAdapter(
         holder.textPopularity.compoundDrawableTintList = ColorStateList.valueOf(textColor)
         holder.textContributor.setTextColor(textColor)
         holder.textContributor.compoundDrawableTintList = ColorStateList.valueOf(textColor)
+        val buttonColor = context.getColor(TaskItemUtils.getButtonColor(item.cardIdentifier))
+        holder.buttonStartNow.backgroundTintList = ColorStateList.valueOf(buttonColor)
+        val timeUsed = item.getTimeUsed()
+        if (timeUsed < 0) {
+            holder.buttonStartNow.text = context.getString(R.string.action_start_now)
+            holder.buttonStartNow.isEnabled = true
+        } else {
+            holder.buttonStartNow.text = context.getString(R.string.hint_in_progress)
+            holder.buttonStartNow.isEnabled = false
+        }
         with(holder.cardView) {
             tag = item
         }
@@ -82,7 +94,8 @@ class TaskRecyclerViewAdapter(
     override fun getItemCount(): Int = items.size
 
     interface OnItemClickInteractionListener {
-        fun onItemClickInteraction(item: Task)
+        fun onItemClick(item: Task)
+        fun onItemButtonStartNowClicked(item: Task)
     }
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
@@ -92,6 +105,7 @@ class TaskRecyclerViewAdapter(
         val textPeriod: TextView = mView.text_period
         val textPopularity: TextView = mView.text_popularity
         val textContributor: TextView = mView.text_contributor
+        val buttonStartNow: Button = mView.button_start_now
 
         override fun toString(): String {
             return super.toString() + " '" + textTitle.text + "'"

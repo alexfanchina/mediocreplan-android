@@ -35,9 +35,19 @@ class TaskViewModel : ViewModel() {
         mTaskRepository!!.updateAdded(task)
     }
 
+    fun removeTaskFromPlan(task: Task) {
+        task.added = false
+        mTaskRepository!!.updateAdded(task)
+    }
+
     fun startTask(task: Task) {
         task.added = true
         task.startTime = Date()
+        mTaskRepository!!.updateStarted(task)
+    }
+
+    fun abolishTask(task: Task) {
+        task.startTime = Date(Long.MAX_VALUE)
         mTaskRepository!!.updateStarted(task)
     }
 
