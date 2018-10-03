@@ -41,6 +41,22 @@ data class Task(@PrimaryKey @NonNull @ColumnInfo(name = "_id") @SerializedName("
         else Date().time - startTime!!.time
     }
 
+    fun getTimeExpected(): Long {
+        return duration.calcTimeMillis()
+    }
+
+    fun getStatus(): Int {
+        val timeUsed = getTimeUsed()
+        val timeExpected = getTimeExpected()
+        return when {
+            !added -> UNPLANNED
+            timeUsed < 0 -> PLANNED
+            timeUsed in 0..timeExpected -> IN_PROGRESS
+            timeUsed > timeExpected -> FINISHED
+            else -> UNPLANNED
+        }
+    }
+
     constructor(parcel: Parcel) : this(parcel.readInt()) {
         title = parcel.readString()!!
         narration = parcel.readString()!!
@@ -60,6 +76,10 @@ data class Task(@PrimaryKey @NonNull @ColumnInfo(name = "_id") @SerializedName("
                 parcel.readInt(),
                 parcel.readInt(),
                 parcel.readInt())
+
+        fun calcTimeMillis(): Long {
+            return (years * 365 + months * 30 + days) * 24 * 60 * 60L
+        }
 
         fun toString(context: Context): String {
             when {
@@ -109,6 +129,11 @@ data class Task(@PrimaryKey @NonNull @ColumnInfo(name = "_id") @SerializedName("
     }
 
     companion object CREATOR : Parcelable.Creator<Task> {
+        const val UNPLANNED = -1
+        const val PLANNED = 1
+        const val IN_PROGRESS = 2
+        const val FINISHED = 3
+
         override fun createFromParcel(parcel: Parcel): Task {
             return Task(parcel)
         }

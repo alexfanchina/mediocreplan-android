@@ -5,12 +5,15 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
 import com.race.mediocreplan.R
+import com.race.mediocreplan.data.model.Task
+import com.race.mediocreplan.viewModel.TaskViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), PlanFragment.OnListFragmentInteractionListener {
 
     private val fragmentMap: HashMap<Int, Fragment> = HashMap()
     private var currentFragment: Int? = null
+    private lateinit var taskViewModel: TaskViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // TODO: UI bug when rotating screen
@@ -21,17 +24,22 @@ class MainActivity : AppCompatActivity() {
             switchTab(menuItem.itemId)
         }
         initTabs()
+        taskViewModel = TaskViewModel.create(this, application)
     }
 
     private fun initTabs() {
         val discoverFragment = DiscoverFragment()
+        val planFragment = PlanFragment()
         val contributeFragment = ContributeFragment()
         fragmentMap[R.id.menu_navi_discover] = discoverFragment
+        fragmentMap[R.id.menu_navi_plan] = planFragment
         fragmentMap[R.id.menu_navi_contribute] = contributeFragment
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.add(R.id.fragment_container, discoverFragment)
+        fragmentTransaction.add(R.id.fragment_container, planFragment)
         fragmentTransaction.add(R.id.fragment_container, contributeFragment)
         fragmentTransaction.show(discoverFragment)
+        fragmentTransaction.hide(planFragment)
         fragmentTransaction.hide(contributeFragment)
         fragmentTransaction.commit()
         action_bar.title = getString(R.string.navi_discover)
@@ -46,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         } else {
             fragment = when (itemId) {
                 R.id.menu_navi_discover -> DiscoverFragment()
+                R.id.menu_navi_plan -> PlanFragment()
                 R.id.menu_navi_contribute -> ContributeFragment()
                 else -> return false
             }
@@ -70,6 +79,16 @@ class MainActivity : AppCompatActivity() {
             currentFragment = itemId
             true
         } else false
+    }
+
+    override fun onTaskClick(item: Task?) {
+        if (item is Task)
+            TaskDetailActivity.actionStart(this, item)
+    }
+
+    override fun onTaskButtonStartNowClick(item: Task?) {
+        if (item is Task)
+            taskViewModel.startTask(item)
     }
 
     companion object {

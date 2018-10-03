@@ -1,25 +1,25 @@
 package com.race.mediocreplan.ui
 
+import android.arch.lifecycle.Observer
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.race.mediocreplan.R
+import com.race.mediocreplan.data.model.Task
+import com.race.mediocreplan.viewModel.TaskViewModel
 
-import com.race.mediocreplan.ui.dummy.DummyContent
-import com.race.mediocreplan.ui.dummy.DummyContent.DummyItem
 
-/**
- * A fragment representing a list of Items.
- * Activities containing this fragment MUST implement the
- * [PlanFragment.OnListFragmentInteractionListener] interface.
- */
 class PlanFragment : Fragment() {
+
+    private lateinit var taskViewModel: TaskViewModel
+    private var myTaskAdapter: MyTaskRecyclerViewAdapter? = null
 
     // TODO: Customize parameters
     private var columnCount = 1
@@ -32,11 +32,19 @@ class PlanFragment : Fragment() {
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
         }
+        taskViewModel = TaskViewModel.create(this, activity!!.application)
+        taskViewModel.getAllTasks().observe(this, Observer { tasks ->
+            if (myTaskAdapter != null) {
+                Log.d(DiscoverFragment.TAG, "all tasks live data updated")
+                myTaskAdapter!!.setItems(tasks)
+                myTaskAdapter!!.notifyDataSetChanged()
+            } else Log.e(TAG, "myTaskAdapter is null")
+        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.item_subtitle, container, false)
+        val view = inflater.inflate(R.layout.fragment_plan, container, false)
 
         // Set the adapter
         if (view is RecyclerView) {
@@ -45,7 +53,9 @@ class PlanFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = MyTaskRecyclerViewAdapter(DummyContent.ITEMS, listener)
+                myTaskAdapter = MyTaskRecyclerViewAdapter(listener!!)
+                Log.d(TAG, "myTaskRecyclerViewAdapter initiated")
+                adapter = myTaskAdapter
             }
         }
         return view
@@ -78,10 +88,14 @@ class PlanFragment : Fragment() {
      */
     interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onListFragmentInteraction(item: DummyItem?)
+        fun onTaskClick(item: Task?)
+
+        fun onTaskButtonStartNowClick(item: Task?)
     }
 
     companion object {
+
+        const val TAG = "PlanFragment"
 
         // TODO: Customize parameter argument names
         const val ARG_COLUMN_COUNT = "column-count"
