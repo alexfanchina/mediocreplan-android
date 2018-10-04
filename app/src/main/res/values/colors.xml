@@ -4,6 +4,9 @@
     <color name="colorPrimaryDark">#212121</color>
     <color name="colorAccent">#ff395a</color>
 
+    <color name="colorPlaceHolder">#9a37474f</color>
+    <color name="colorPlaceHolderText">#9e9e9e</color>
+
     <color name="colorIconInactivated">#aaffffff</color>
     <color name="colorCardButtonBackground">#7ebdbdbd</color>
 

@@ -26,6 +26,10 @@
 
     <style name="Task.TextAppearance.Description" parent="TextAppearance.AppCompat.Small.Inverse" />
 
+    <style name="Task.TextAppearance.Title.PlaceHolder">
+        <item name="android:textColor">@color/colorPlaceHolderText</item>
+    </style>
+
     <style name="Task.Button.Positive" parent="Widget.AppCompat.Button.Colored">
         <item name="android:background">@drawable/button_background</item>
         <item name="android:backgroundTint">@color/redTaskButton</item>

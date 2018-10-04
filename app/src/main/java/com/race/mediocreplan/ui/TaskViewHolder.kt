@@ -46,13 +46,19 @@ class TaskViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         textContributor.compoundDrawableTintList = ColorStateList.valueOf(textColor)
         val buttonColor = context.getColor(TaskItemUtils.getButtonColor(item.cardIdentifier))
         buttonStartNow.backgroundTintList = ColorStateList.valueOf(buttonColor)
-        val timeUsed = item.getTimeUsed()
-        if (timeUsed < 0) {
-            buttonStartNow.text = context.getString(R.string.action_start_now)
-            buttonStartNow.isEnabled = true
-        } else {
-            buttonStartNow.text = context.getString(R.string.hint_in_progress)
-            buttonStartNow.isEnabled = false
+        when (item.getStatus()) {
+            Task.UNPLANNED, Task.PLANNED -> {
+                buttonStartNow.text = context.getString(R.string.action_start_now)
+                buttonStartNow.isEnabled = true
+            }
+            Task.IN_PROGRESS -> {
+                buttonStartNow.text = context.getString(R.string.hint_in_progress)
+                buttonStartNow.isEnabled = false
+            }
+            Task.FINISHED -> {
+                buttonStartNow.text = context.getString(R.string.hint_finished)
+                buttonStartNow.isEnabled = false
+            }
         }
         with(cardView) {
             tag = item

@@ -1,5 +1,6 @@
 package com.race.mediocreplan.ui
 
+import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.RecyclerView.ViewHolder
 import android.view.LayoutInflater
@@ -67,6 +68,17 @@ class MyTaskRecyclerViewAdapter(
                 getSectionTitlePosition(TITLE_FINISHED) -> context.getString(R.string.section_title_finished)
                 else -> ""
             }
+            vh.placeholder.visibility = if (
+                    (position == getSectionTitlePosition(TITLE_IN_PROGRESS) && tasksInProgress.isEmpty()) ||
+                    (position == getSectionTitlePosition(TITLE_PLANNED) && tasksPlanned.isEmpty()) ||
+                    (position == getSectionTitlePosition(TITLE_FINISHED) && tasksFinished.isEmpty())
+            ) View.VISIBLE else View.GONE
+            vh.textHint.text = when (position) {
+                getSectionTitlePosition(TITLE_IN_PROGRESS) -> context.getString(R.string.section_placeholder_in_progress)
+                getSectionTitlePosition(TITLE_PLANNED) -> context.getString(R.string.section_placeholder_planned)
+                getSectionTitlePosition(TITLE_FINISHED) -> context.getString(R.string.section_placeholder_finished)
+                else -> ""
+            }
         } else {
             val vh = holder as TaskViewHolder
             val item = getTaskFromPosition(position)
@@ -114,6 +126,8 @@ class MyTaskRecyclerViewAdapter(
 
     inner class SectionTitleViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val textSectionTitle: TextView = mView.text_section_title
+        val placeholder: CardView = mView.place_holder
+        val textHint: TextView = mView.text_hint
 
         override fun toString(): String {
             return super.toString() + " '" + textSectionTitle.text + "'"
