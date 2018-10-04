@@ -1,9 +1,9 @@
 package com.race.mediocreplan.ui
 
 import android.app.ActivityOptions
+import android.content.res.ColorStateList
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.v4.app.Fragment
 import android.util.Log
 import com.race.mediocreplan.R
@@ -109,8 +109,6 @@ class MainActivity : AppCompatActivity(), OnListFragmentInteractionListener {
                         UtilPair.create(viewHolder.textTitle, getString(R.string.transition_title)),
 //                        UtilPair.create(viewHolder.textNarration, getString(R.string.transition_narration)),
                         UtilPair.create(viewHolder.linearProperties, getString(R.string.transition_properties)))
-//                val options = ActivityOptions.makeSceneTransitionAnimation(this,
-//                        viewHolder.cardView, getString(R.string.transition_card))
                 TaskDetailActivity.actionStart(this, item, options)
             } else TaskDetailActivity.actionStart(this, item)
         }
@@ -119,6 +117,11 @@ class MainActivity : AppCompatActivity(), OnListFragmentInteractionListener {
     override fun onTaskButtonStartNowClick(item: Task?) {
         if (item is Task)
             taskViewModel.startTask(item)
+    }
+
+    override fun onListCanScrollUpChanged(canScrollDown: Boolean) {
+        action_bar.isActivated = canScrollDown
+        Log.d(TAG, "action_bar isActivated = ${action_bar.isActivated}")
     }
 
     companion object {

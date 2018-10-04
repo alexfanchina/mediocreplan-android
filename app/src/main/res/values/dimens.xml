@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="text_margin">16dp</dimen>
-
     <dimen name="card_recycler_padding">4dp</dimen>
     <dimen name="card_margin">4dp</dimen>
     <dimen name="card_radius">6dp</dimen>
     <dimen name="card_drawable_padding">8dp</dimen>
     <dimen name="card_button_margin">12dp</dimen>
+    <dimen name="bottom_navigation_elevation">6dp</dimen>
 </resources>

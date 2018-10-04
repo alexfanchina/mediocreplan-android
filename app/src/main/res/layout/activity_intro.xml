@@ -12,11 +12,13 @@
         android:id="@+id/action_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
+        android:background="@color/colorPrimaryDark"
+        android:stateListAnimator="@animator/elevation_app_bar"
         app:title="@string/title_intro"
         app:titleTextColor="@android:color/white" />
 
     <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

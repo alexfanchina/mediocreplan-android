@@ -6,16 +6,14 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SimpleItemAnimator
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.gson.Gson
 import com.race.mediocreplan.R
-import com.race.mediocreplan.data.model.Task
 import com.race.mediocreplan.viewModel.TaskViewModel
+import kotlinx.android.synthetic.main.fragment_discover.view.*
 
 
 class DiscoverFragment : Fragment() {
@@ -47,18 +45,18 @@ class DiscoverFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_discover, container, false)
-
-        // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
-                }
-                (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-                taskAdapter = TaskRecyclerViewAdapter(listener!!)
-                taskAdapter?.setHasStableIds(true)
-                adapter = taskAdapter
+        view.swipe_refresh.setColorSchemeColors(view.context.getColor(R.color.colorAccent))
+        with(view.list) {
+            layoutManager = when {
+                columnCount <= 1 -> LinearLayoutManager(context)
+                else -> GridLayoutManager(context, columnCount)
+            }
+            (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+            taskAdapter = TaskRecyclerViewAdapter(listener!!)
+            taskAdapter?.setHasStableIds(true)
+            adapter = taskAdapter
+            setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+                listener?.onListCanScrollUpChanged((layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition() != 0)
             }
         }
         return view

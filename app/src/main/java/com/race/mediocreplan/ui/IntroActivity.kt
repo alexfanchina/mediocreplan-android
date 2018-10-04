@@ -13,6 +13,9 @@ class IntroActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro)
+        scroll.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            action_bar.isActivated = scroll.canScrollVertically(-1)
+        }
         text.text = SpannedUtils.fromHtml(getString(R.string.why_mediocre))
     }
 

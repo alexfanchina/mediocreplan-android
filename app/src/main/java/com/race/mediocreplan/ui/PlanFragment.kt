@@ -63,6 +63,9 @@ class PlanFragment : Fragment() {
                 Log.d(TAG, "myTaskRecyclerViewAdapter initiated")
                 adapter = myTaskAdapter
             }
+            view.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+                listener?.onListCanScrollUpChanged(view.canScrollVertically(-1))
+            }
         }
         return view
     }

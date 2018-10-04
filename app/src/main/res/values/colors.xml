@@ -5,6 +5,8 @@
     <color name="colorAccent">#ff395a</color>
 
     <color name="colorIconInactivated">#aaffffff</color>
-
     <color name="colorCardButtonBackground">#7ebdbdbd</color>
+
+    <color name="appBarBackground">@android:color/transparent</color>
+    <color name="appBarBackgroundActivated">@color/colorPrimaryDark</color>
 </resources>
