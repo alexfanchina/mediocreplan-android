@@ -33,6 +33,16 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Set up a scholarship. " />
 
+            <!--<View-->
+            <!--android:id="@+id/view_transition_narration"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1px"-->
+            <!--android:layout_marginEnd="@dimen/text_margin"-->
+            <!--android:layout_marginStart="@dimen/text_margin"-->
+            <!--android:layout_marginTop="@dimen/text_margin"-->
+            <!--app:layout_constraintTop_toBottomOf="@id/text_title"-->
+            <!--android:transitionName="@string/transition_narration"/>-->
+
             <TextView
                 android:id="@+id/text_narration"
                 android:layout_width="match_parent"
@@ -41,11 +51,10 @@
                 android:layout_marginStart="@dimen/text_margin"
                 android:layout_marginTop="@dimen/text_margin"
                 android:textAppearance="@style/Task.TextAppearance.Description"
-                android:transitionName="@string/transition_narration"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/text_title"
                 tools:text="Blah blah blah blah blah blah blah blah blah blah blah blah blah blah"
-                tools:visibility="visible" />
+                tools:visibility="gone" />
 
             <Button
                 android:id="@+id/button_start_now"

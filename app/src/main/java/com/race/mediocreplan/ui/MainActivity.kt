@@ -1,7 +1,6 @@
 package com.race.mediocreplan.ui
 
 import android.app.ActivityOptions
-import android.content.res.ColorStateList
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -11,6 +10,7 @@ import com.race.mediocreplan.data.model.Task
 import com.race.mediocreplan.viewModel.TaskViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import android.util.Pair as UtilPair
+
 
 class MainActivity : AppCompatActivity(), OnListFragmentInteractionListener {
 
@@ -107,7 +107,6 @@ class MainActivity : AppCompatActivity(), OnListFragmentInteractionListener {
                 val options = ActivityOptions.makeSceneTransitionAnimation(this,
                         UtilPair.create(viewHolder.cardView, getString(R.string.transition_card)),
                         UtilPair.create(viewHolder.textTitle, getString(R.string.transition_title)),
-//                        UtilPair.create(viewHolder.textNarration, getString(R.string.transition_narration)),
                         UtilPair.create(viewHolder.linearProperties, getString(R.string.transition_properties)))
                 TaskDetailActivity.actionStart(this, item, options)
             } else TaskDetailActivity.actionStart(this, item)

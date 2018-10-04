@@ -1,14 +1,12 @@
 package com.race.mediocreplan.ui
 
 import android.app.ActivityOptions
-import android.app.SharedElementCallback
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.transition.TransitionManager
+import android.transition.*
 import android.util.Log
 import android.view.View
 import com.google.gson.Gson
@@ -17,8 +15,7 @@ import com.race.mediocreplan.data.model.Task
 import com.race.mediocreplan.ui.utils.TaskItemUtils
 import com.race.mediocreplan.viewModel.TaskViewModel
 import kotlinx.android.synthetic.main.activity_task_detail.*
-import android.transition.AutoTransition
-import android.view.animation.DecelerateInterpolator
+
 
 class TaskDetailActivity : AppCompatActivity() {
 
@@ -31,8 +28,6 @@ class TaskDetailActivity : AppCompatActivity() {
         taskViewModel = TaskViewModel.create(this, application)
         task = intent.getParcelableExtra(EXTRA_TASK)
         Log.d(TAG, "get parcelable extra " + task.toString())
-        window.sharedElementEnterTransition.duration = 200
-        window.sharedElementReturnTransition.setDuration(200).interpolator = DecelerateInterpolator()
         background.setOnClickListener { onBackPressed() }
         initStyle()
         loadData()
@@ -67,15 +62,22 @@ class TaskDetailActivity : AppCompatActivity() {
         text_narration.visibility = View.GONE
         button_start_now.visibility = View.GONE
         button_add_to_plan.visibility = View.GONE
-        val handler = Handler()
-        handler.postDelayed({
-            val transition = AutoTransition()
-            transition.duration = 200
-            TransitionManager.beginDelayedTransition(card, transition)
-            text_narration.visibility = View.VISIBLE
-            button_start_now.visibility = View.VISIBLE
-            button_add_to_plan.visibility = View.VISIBLE
-        }, 400)
+        window.sharedElementEnterTransition.duration = 200
+        window.sharedElementEnterTransition.addListener(object : Transition.TransitionListener {
+            override fun onTransitionEnd(transition: Transition?) {
+                val t = AutoTransition()
+                t.duration = 200
+                TransitionManager.beginDelayedTransition(card, t)
+                text_narration.visibility = View.VISIBLE
+                button_start_now.visibility = View.VISIBLE
+                button_add_to_plan.visibility = View.VISIBLE
+            }
+
+            override fun onTransitionResume(transition: Transition?) {}
+            override fun onTransitionPause(transition: Transition?) {}
+            override fun onTransitionCancel(transition: Transition?) {}
+            override fun onTransitionStart(transition: Transition?) {}
+        })
     }
 
     private fun loadData() {
