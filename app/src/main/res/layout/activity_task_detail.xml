@@ -2,8 +2,11 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/background"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     android:padding="4dp"
     tools:context=".ui.TaskDetailActivity">
 
@@ -11,6 +14,7 @@
         android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_margin="@dimen/card_margin"
         android:stateListAnimator="@animator/elevation_task_selection"
         android:transitionName="@string/transition_card"
@@ -18,7 +22,7 @@
         app:cardCornerRadius="@dimen/card_radius">
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/linearLayout"
+            android:id="@+id/constraint_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
@@ -43,6 +47,7 @@
                 android:layout_marginEnd="@dimen/text_margin"
                 android:layout_marginStart="@dimen/text_margin"
                 android:layout_marginTop="@dimen/text_margin"
+                android:transitionName="@string/transition_narration"
                 android:textAppearance="@style/Task.TextAppearance.Description"
                 app:layout_constraintTop_toBottomOf="@id/text_title"
                 tools:text="Blah blah blah blah blah blah blah blah blah blah blah blah blah blah" />

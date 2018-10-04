@@ -45,5 +45,6 @@
 
     <string name="transition_card">transition-card</string>
     <string name="transition_title">transition-title</string>
+    <string name="transition_narration">transition-narration</string>
     <string name="transition_properties">transition-properties</string>
 </resources>

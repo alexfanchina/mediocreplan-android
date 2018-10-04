@@ -47,7 +47,7 @@ class MyTaskRecyclerViewAdapter(
             val holder = TaskViewHolder(view)
             holder.cardView.setOnClickListener { _ ->
                 val task = getTaskFromPosition(holder.adapterPosition)
-                mListener.onTaskClick(task)
+                mListener.onTaskClick(task, holder)
             }
             holder.buttonStartNow.setOnClickListener { _ ->
                 val task = getTaskFromPosition(holder.adapterPosition)
@@ -101,6 +101,15 @@ class MyTaskRecyclerViewAdapter(
         }
     }
 
+    override fun getItemId(position: Int): Long {
+        return when (position) {
+            getSectionTitlePosition(TITLE_IN_PROGRESS) -> TITLE_IN_PROGRESS.toLong()
+            getSectionTitlePosition(TITLE_PLANNED) -> TITLE_PLANNED.toLong()
+            getSectionTitlePosition(TITLE_FINISHED) -> TITLE_FINISHED.toLong()
+            else -> getTaskFromPosition(position)._id.toLong()
+        }
+    }
+
     override fun getItemCount(): Int = tasksInProgress.size + tasksPlanned.size + tasksFinished.size + 3
 
     inner class SectionTitleViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
@@ -115,8 +124,8 @@ class MyTaskRecyclerViewAdapter(
         const val TAG = "MyTaskRecyclerViewAdapter"
         const val TYPE_TASK = -1
         const val TYPE_SECTION_TITLE = 0
-        const val TITLE_IN_PROGRESS = 2
-        const val TITLE_PLANNED = 1
-        const val TITLE_FINISHED = 3
+        const val TITLE_IN_PROGRESS = -7
+        const val TITLE_PLANNED = -8
+        const val TITLE_FINISHED = -9
     }
 }

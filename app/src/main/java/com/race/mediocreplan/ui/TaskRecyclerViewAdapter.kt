@@ -26,7 +26,7 @@ class TaskRecyclerViewAdapter(private val mListener: OnListFragmentInteractionLi
 //            val prevExpandedPosition = mExpandedPosition
 //            mExpandedPosition = if (holder.adapterPosition == mExpandedPosition)
 //                RecyclerView.NO_POSITION else holder.adapterPosition
-            mListener.onTaskClick(item)
+            mListener.onTaskClick(item, holder)
             // TODO: fix the transition
 //            val transition = AutoTransition()
 //            transition.duration = 200
@@ -42,7 +42,7 @@ class TaskRecyclerViewAdapter(private val mListener: OnListFragmentInteractionLi
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val item = items.get(position)
+        val item = items[position]
         if (holder is TaskViewHolder) {
             val vh = holder as TaskViewHolder
             vh.bind(item)
@@ -50,7 +50,7 @@ class TaskRecyclerViewAdapter(private val mListener: OnListFragmentInteractionLi
     }
 
     override fun getItemId(position: Int): Long {
-        return position.toLong()
+        return items[position]._id.toLong()
     }
 
     override fun getItemCount(): Int = items.size

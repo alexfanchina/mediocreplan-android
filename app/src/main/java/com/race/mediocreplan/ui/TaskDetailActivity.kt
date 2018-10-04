@@ -1,20 +1,24 @@
 package com.race.mediocreplan.ui
 
 import android.app.ActivityOptions
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
+import android.app.SharedElementCallback
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.transition.TransitionManager
 import android.util.Log
+import android.view.View
 import com.google.gson.Gson
 import com.race.mediocreplan.R
 import com.race.mediocreplan.data.model.Task
 import com.race.mediocreplan.ui.utils.TaskItemUtils
 import com.race.mediocreplan.viewModel.TaskViewModel
 import kotlinx.android.synthetic.main.activity_task_detail.*
+import android.transition.AutoTransition
+import android.view.animation.DecelerateInterpolator
 
 class TaskDetailActivity : AppCompatActivity() {
 
@@ -27,8 +31,21 @@ class TaskDetailActivity : AppCompatActivity() {
         taskViewModel = TaskViewModel.create(this, application)
         task = intent.getParcelableExtra(EXTRA_TASK)
         Log.d(TAG, "get parcelable extra " + task.toString())
+        window.sharedElementEnterTransition.duration = 200
+        window.sharedElementReturnTransition.setDuration(200).interpolator = DecelerateInterpolator()
+        background.setOnClickListener { onBackPressed() }
         initStyle()
         loadData()
+    }
+
+    override fun onBackPressed() {
+        val transition = AutoTransition()
+        transition.duration = 200
+        TransitionManager.beginDelayedTransition(card, transition)
+        text_narration.visibility = View.GONE
+        button_start_now.visibility = View.GONE
+        button_add_to_plan.visibility = View.GONE
+        supportFinishAfterTransition()
     }
 
     private fun initStyle() {
@@ -46,6 +63,19 @@ class TaskDetailActivity : AppCompatActivity() {
         val buttonColor = getColor(TaskItemUtils.getButtonColor(task.cardIdentifier))
         button_start_now.backgroundTintList = ColorStateList.valueOf(buttonColor)
         button_add_to_plan.backgroundTintList = ColorStateList.valueOf(buttonColor)
+
+        text_narration.visibility = View.GONE
+        button_start_now.visibility = View.GONE
+        button_add_to_plan.visibility = View.GONE
+        val handler = Handler()
+        handler.postDelayed({
+            val transition = AutoTransition()
+            transition.duration = 200
+            TransitionManager.beginDelayedTransition(card, transition)
+            text_narration.visibility = View.VISIBLE
+            button_start_now.visibility = View.VISIBLE
+            button_add_to_plan.visibility = View.VISIBLE
+        }, 400)
     }
 
     private fun loadData() {

@@ -5,6 +5,7 @@ import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.race.mediocreplan.R
 import com.race.mediocreplan.data.model.Task
@@ -15,6 +16,7 @@ class TaskViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
     val cardView: CardView = mView.card
     val textTitle: TextView = mView.text_title
     val textNarration: TextView = mView.text_narration
+    val linearProperties: LinearLayout = mView.linear_properties
     val textPeriod: TextView = mView.text_period
     val textPopularity: TextView = mView.text_popularity
     val textContributor: TextView = mView.text_contributor

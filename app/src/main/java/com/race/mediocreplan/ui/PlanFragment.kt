@@ -59,6 +59,7 @@ class PlanFragment : Fragment() {
                     }
                 })
                 myTaskAdapter = MyTaskRecyclerViewAdapter(listener!!)
+                myTaskAdapter?.setHasStableIds(true)
                 Log.d(TAG, "myTaskRecyclerViewAdapter initiated")
                 adapter = myTaskAdapter
             }
