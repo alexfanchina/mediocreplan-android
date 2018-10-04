@@ -1,26 +1,21 @@
 package com.race.mediocreplan.ui
 
-import android.content.res.ColorStateList
-import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.RecyclerView.ViewHolder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import com.race.mediocreplan.R
 import com.race.mediocreplan.data.model.Task
-import com.race.mediocreplan.ui.utils.TaskItemUtils
 import kotlinx.android.synthetic.main.item_section_title.view.*
-import kotlinx.android.synthetic.main.item_task.view.*
+import android.util.Pair as UtilPair
 
 
 class MyTaskRecyclerViewAdapter(
         private val mListener: OnListFragmentInteractionListener)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val mOnClickListener: View.OnClickListener
     private var tasksInProgress: MutableList<Task> = mutableListOf()
     private var tasksPlanned: MutableList<Task> = mutableListOf()
     private var tasksFinished: MutableList<Task> = mutableListOf()
@@ -40,16 +35,6 @@ class MyTaskRecyclerViewAdapter(
             }
         }
     }
-
-    init {
-        mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as Task
-            // Notify the active callbacks interface (the activity, if the fragment is attached to
-            // one) that an item has been selected.
-            mListener.onTaskClick(item)
-        }
-    }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return if (viewType == TYPE_SECTION_TITLE) {
@@ -85,36 +70,7 @@ class MyTaskRecyclerViewAdapter(
         } else {
             val vh = holder as TaskViewHolder
             val item = getTaskFromPosition(position)
-            val context = vh.mView.context
-            vh.textTitle.text = item.title
-            vh.textNarration.text = item.narration
-            vh.textPeriod.text = item.duration.toString(context)
-            vh.textPopularity.text = context.getString(R.string.desc_popularity, item.popularity)
-            vh.textContributor.text = context.getString(R.string.desc_contributor, item.contributor)
-            vh.cardView.setCardBackgroundColor(ColorStateList.valueOf(
-                    context.getColor(TaskItemUtils.getCardColor(item.cardIdentifier))))
-            val textColor = context.getColor(TaskItemUtils.getTextColor(item.cardIdentifier))
-            vh.textTitle.setTextColor(textColor)
-            vh.textNarration.setTextColor(textColor)
-            vh.textPeriod.setTextColor(textColor)
-            vh.textPeriod.compoundDrawableTintList = ColorStateList.valueOf(textColor)
-            vh.textPopularity.setTextColor(textColor)
-            vh.textPopularity.compoundDrawableTintList = ColorStateList.valueOf(textColor)
-            vh.textContributor.setTextColor(textColor)
-            vh.textContributor.compoundDrawableTintList = ColorStateList.valueOf(textColor)
-            val buttonColor = context.getColor(TaskItemUtils.getButtonColor(item.cardIdentifier))
-            vh.buttonStartNow.backgroundTintList = ColorStateList.valueOf(buttonColor)
-            val timeUsed = item.getTimeUsed()
-            if (timeUsed < 0) {
-                vh.buttonStartNow.text = context.getString(R.string.action_start_now)
-                vh.buttonStartNow.isEnabled = true
-            } else {
-                vh.buttonStartNow.text = context.getString(R.string.hint_in_progress)
-                vh.buttonStartNow.isEnabled = false
-            }
-            with(vh.cardView) {
-                tag = item
-            }
+            vh.bind(item)
         }
     }
 
@@ -146,20 +102,6 @@ class MyTaskRecyclerViewAdapter(
     }
 
     override fun getItemCount(): Int = tasksInProgress.size + tasksPlanned.size + tasksFinished.size + 3
-
-    inner class TaskViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val cardView: CardView = mView.card
-        val textTitle: TextView = mView.text_title
-        val textNarration: TextView = mView.text_narration
-        val textPeriod: TextView = mView.text_period
-        val textPopularity: TextView = mView.text_popularity
-        val textContributor: TextView = mView.text_contributor
-        val buttonStartNow: Button = mView.button_start_now
-
-        override fun toString(): String {
-            return super.toString() + " '" + textTitle.text + "'"
-        }
-    }
 
     inner class SectionTitleViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val textSectionTitle: TextView = mView.text_section_title

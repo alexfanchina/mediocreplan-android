@@ -43,6 +43,7 @@
     <string name="desc_popularity">Popularity: %d</string>
     <string name="desc_contributor">Contributor: %s</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="transition_card">transition-card</string>
+    <string name="transition_title">transition-title</string>
+    <string name="transition_properties">transition-properties</string>
 </resources>

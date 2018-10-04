@@ -1,33 +1,26 @@
 package com.race.mediocreplan.ui
 
-import android.content.res.ColorStateList
-import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import com.race.mediocreplan.R
 import com.race.mediocreplan.data.model.Task
-import com.race.mediocreplan.ui.utils.TaskItemUtils
-import kotlinx.android.synthetic.main.item_task.view.*
 
 class TaskRecyclerViewAdapter(private val mListener: OnListFragmentInteractionListener)
-    : RecyclerView.Adapter<TaskRecyclerViewAdapter.ViewHolder>() {
+    : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var items: List<Task> = ArrayList()
-    private var mExpandedPosition: Int = -1
+//    private var mExpandedPosition: Int = -1
 
     fun setItems(tasks: List<Task>?) {
         if (tasks is List<Task>)
             items = tasks
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_task, parent, false)
-        val holder = ViewHolder(view)
+        val holder = TaskViewHolder(view)
         holder.cardView.setOnClickListener { v ->
             val item = v.tag as Task
 //            val prevExpandedPosition = mExpandedPosition
@@ -48,40 +41,11 @@ class TaskRecyclerViewAdapter(private val mListener: OnListFragmentInteractionLi
         return holder
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val isExpanded: Boolean = (position == mExpandedPosition)
-        val context = holder.mView.context
-        val item = items[position]
-        holder.textTitle.text = item.title
-        holder.textNarration.text = item.narration
-        holder.textPeriod.text = item.duration.toString(context)
-        holder.textPopularity.text = context.getString(R.string.desc_popularity, item.popularity)
-        holder.textContributor.text = context.getString(R.string.desc_contributor, item.contributor)
-        holder.textNarration.visibility = if (isExpanded) View.VISIBLE else View.GONE
-        holder.itemView.isActivated = isExpanded
-        holder.cardView.setCardBackgroundColor(ColorStateList.valueOf(
-                context.getColor(TaskItemUtils.getCardColor(item.cardIdentifier))))
-        val textColor = context.getColor(TaskItemUtils.getTextColor(item.cardIdentifier))
-        holder.textTitle.setTextColor(textColor)
-        holder.textNarration.setTextColor(textColor)
-        holder.textPeriod.setTextColor(textColor)
-        holder.textPeriod.compoundDrawableTintList = ColorStateList.valueOf(textColor)
-        holder.textPopularity.setTextColor(textColor)
-        holder.textPopularity.compoundDrawableTintList = ColorStateList.valueOf(textColor)
-        holder.textContributor.setTextColor(textColor)
-        holder.textContributor.compoundDrawableTintList = ColorStateList.valueOf(textColor)
-        val buttonColor = context.getColor(TaskItemUtils.getButtonColor(item.cardIdentifier))
-        holder.buttonStartNow.backgroundTintList = ColorStateList.valueOf(buttonColor)
-        val timeUsed = item.getTimeUsed()
-        if (timeUsed < 0) {
-            holder.buttonStartNow.text = context.getString(R.string.action_start_now)
-            holder.buttonStartNow.isEnabled = true
-        } else {
-            holder.buttonStartNow.text = context.getString(R.string.hint_in_progress)
-            holder.buttonStartNow.isEnabled = false
-        }
-        with(holder.cardView) {
-            tag = item
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val item = items.get(position)
+        if (holder is TaskViewHolder) {
+            val vh = holder as TaskViewHolder
+            vh.bind(item)
         }
     }
 
@@ -90,18 +54,4 @@ class TaskRecyclerViewAdapter(private val mListener: OnListFragmentInteractionLi
     }
 
     override fun getItemCount(): Int = items.size
-
-    inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val cardView: CardView = mView.card
-        val textTitle: TextView = mView.text_title
-        val textNarration: TextView = mView.text_narration
-        val textPeriod: TextView = mView.text_period
-        val textPopularity: TextView = mView.text_popularity
-        val textContributor: TextView = mView.text_contributor
-        val buttonStartNow: Button = mView.button_start_now
-
-        override fun toString(): String {
-            return super.toString() + " '" + textTitle.text + "'"
-        }
-    }
 }

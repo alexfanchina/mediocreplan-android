@@ -12,6 +12,7 @@
         android:layout_margin="@dimen/card_margin"
         android:foreground="?selectableItemBackground"
         android:stateListAnimator="@animator/elevation_task_selection"
+        android:transitionName="@string/transition_card"
         app:cardBackgroundColor="@color/colorAccent"
         app:cardCornerRadius="@dimen/card_radius">
 
@@ -26,6 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/text_margin"
                 android:textAppearance="@style/Task.TextAppearance.Title"
+                android:transitionName="@string/transition_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -51,8 +53,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/card_button_margin"
                 android:layout_marginEnd="@dimen/card_button_margin"
-                android:text="@string/action_start_now"
                 android:stateListAnimator="@animator/elevation_task_button"
+                android:text="@string/action_start_now"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
@@ -62,6 +64,7 @@
                 android:layout_margin="@dimen/text_margin"
                 android:layout_toStartOf="@id/button_start_now"
                 android:orientation="vertical"
+                android:transitionName="@string/transition_properties"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/button_start_now"
                 app:layout_constraintStart_toStartOf="parent"

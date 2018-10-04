@@ -1,5 +1,6 @@
 package com.race.mediocreplan.ui
 
+import android.app.ActivityOptions
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.content.Context
@@ -92,6 +93,12 @@ class TaskDetailActivity : AppCompatActivity() {
             val intent = Intent(context, TaskDetailActivity::class.java)
             intent.putExtra(EXTRA_TASK, task)
             context.startActivity(intent)
+        }
+
+        fun actionStart(context: Context, task: Task, options: ActivityOptions) {
+            val intent = Intent(context, TaskDetailActivity::class.java)
+            intent.putExtra(EXTRA_TASK, task)
+            context.startActivity(intent, options.toBundle())
         }
     }
 }

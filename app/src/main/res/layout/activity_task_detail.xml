@@ -11,8 +11,9 @@
         android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:stateListAnimator="@animator/elevation_task_selection"
         android:layout_margin="@dimen/card_margin"
+        android:stateListAnimator="@animator/elevation_task_selection"
+        android:transitionName="@string/transition_card"
         app:cardBackgroundColor="@color/colorAccent"
         app:cardCornerRadius="@dimen/card_radius">
 
@@ -29,6 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/text_margin"
                 android:textAppearance="@style/Task.TextAppearance.Title"
+                android:transitionName="@string/transition_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -51,6 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/text_margin"
                 android:orientation="vertical"
+                android:transitionName="@string/transition_properties"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_narration">
 
