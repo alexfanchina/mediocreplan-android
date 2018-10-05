@@ -4,7 +4,7 @@ import android.arch.persistence.room.TypeConverter
 import java.util.*
 
 
-class PeriodConverters {
+class Converter {
     @TypeConverter
     fun fromPeriodInt(value: Int): Task.Period {
         val years = value / 365

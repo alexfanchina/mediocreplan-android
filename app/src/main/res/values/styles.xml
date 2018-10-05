@@ -24,7 +24,9 @@
 
     <style name="Task.TextAppearance.Title" parent="TextAppearance.AppCompat.Title.Inverse" />
 
-    <style name="Task.TextAppearance.Description" parent="TextAppearance.AppCompat.Small.Inverse" />
+    <style name="Task.TextAppearance.Description" parent="TextAppearance.AppCompat.Small.Inverse">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
 
     <style name="Task.TextAppearance.Title.PlaceHolder">
         <item name="android:textColor">@color/colorPlaceHolderText</item>

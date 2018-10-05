@@ -5,12 +5,12 @@ import android.arch.persistence.room.RoomDatabase
 import android.content.Context
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.TypeConverters
-import com.race.mediocreplan.data.model.PeriodConverters
+import com.race.mediocreplan.data.model.Converter
 import com.race.mediocreplan.data.model.Task
 
 
 @Database(entities = [Task::class], version = 1)
-@TypeConverters(PeriodConverters::class)
+@TypeConverters(Converter::class)
 abstract class TaskDatabase : RoomDatabase() {
 
     abstract fun taskDao(): TaskDao

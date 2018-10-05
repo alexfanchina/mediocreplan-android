@@ -1,5 +1,6 @@
 package com.race.mediocreplan.ui
 
+import android.animation.ObjectAnimator
 import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
@@ -47,14 +48,19 @@ class TaskDetailActivity : AppCompatActivity() {
         card.setCardBackgroundColor(ColorStateList.valueOf(
                 getColor(TaskItemUtils.getCardColor(task.cardIdentifier))))
         val textColor = getColor(TaskItemUtils.getTextColor(task.cardIdentifier))
+        val textColorTintList = ColorStateList.valueOf(textColor)
         text_title.setTextColor(textColor)
         text_narration.setTextColor(textColor)
         text_period.setTextColor(textColor)
-        text_period.compoundDrawableTintList = ColorStateList.valueOf(textColor)
         text_popularity.setTextColor(textColor)
-        text_popularity.compoundDrawableTintList = ColorStateList.valueOf(textColor)
         text_contributor.setTextColor(textColor)
-        text_contributor.compoundDrawableTintList = ColorStateList.valueOf(textColor)
+        text_progress_done.setTextColor(textColor)
+        text_progress_left.setTextColor(textColor)
+        text_period.compoundDrawableTintList = textColorTintList
+        text_popularity.compoundDrawableTintList = textColorTintList
+        text_contributor.compoundDrawableTintList = textColorTintList
+        progress.progressBackgroundTintList = textColorTintList
+        progress.progressTintList = textColorTintList
         val buttonColor = getColor(TaskItemUtils.getButtonColor(task.cardIdentifier))
         button_start_now.backgroundTintList = ColorStateList.valueOf(buttonColor)
         button_add_to_plan.backgroundTintList = ColorStateList.valueOf(buttonColor)
@@ -82,6 +88,7 @@ class TaskDetailActivity : AppCompatActivity() {
 
     private fun loadData() {
         Log.d(TAG, "load " + Gson().toJson(task))
+        Log.d(TAG, "${task._id}: startDate=${task.startTime}, timeUsed=${task.getTimeUsed()}, timeExpected=${task.getTimeExpected()}")
         text_title.text = task.title
         text_narration.text = task.narration
         text_period.text = task.duration.toString(this)
@@ -91,28 +98,40 @@ class TaskDetailActivity : AppCompatActivity() {
             taskViewModel.startTask(task)
             loadData()
         }
-        val timeUsed = task.getTimeUsed()
-        if (timeUsed < 0) {
-            button_start_now.text = getString(R.string.action_start_now)
-            if (!task.added) {
+        TransitionManager.beginDelayedTransition(card)
+        when (task.getStatus()) {
+            Task.UNPLANNED -> {
                 button_add_to_plan.text = getString(R.string.action_add_to_plan)
                 button_add_to_plan.setOnClickListener { _ ->
                     taskViewModel.addTaskToPlan(task)
                     loadData()
                 }
-            } else {
+                progress_layout.visibility = View.GONE
+            }
+            Task.PLANNED -> {
                 button_add_to_plan.text = getString(R.string.action_remove_from_plan)
                 button_add_to_plan.setOnClickListener { _ ->
                     taskViewModel.removeTaskFromPlan(task)
                     loadData()
                 }
+                progress_layout.visibility = View.GONE
             }
-        } else {
-            button_start_now.text = getString(R.string.action_restart)
-            button_add_to_plan.text = getString(R.string.action_abolish)
-            button_add_to_plan.setOnClickListener { _ ->
-                taskViewModel.abolishTask(task)
-                loadData()
+            Task.IN_PROGRESS, Task.FINISHED -> {
+                button_start_now.text = getString(R.string.action_restart)
+                button_add_to_plan.text = getString(R.string.action_abolish)
+                button_add_to_plan.setOnClickListener { _ ->
+                    taskViewModel.abolishTask(task)
+                    loadData()
+                }
+                progress_layout.visibility = View.VISIBLE
+                val percentage = task.getTimeUsedPercentage()
+                val progressAnimator = ObjectAnimator.ofInt(progress, "progress", progress.progress, percentage)
+                progressAnimator.duration = 200
+                progressAnimator.start()
+                text_progress_done.text = String.format(getString(R.string.period_done), percentage)
+                text_progress_left.text = if (task.getStatus() == Task.IN_PROGRESS)
+                    String.format(getString(R.string.period_left), "${(task.getTimeExpected() - task.getTimeUsed()) / 24 / 3600} days")
+                else getString(R.string.period_left_finished)
             }
         }
     }

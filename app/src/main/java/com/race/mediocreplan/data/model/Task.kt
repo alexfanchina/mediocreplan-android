@@ -38,11 +38,11 @@ data class Task(@PrimaryKey @NonNull @ColumnInfo(name = "_id") @SerializedName("
 
     fun getTimeUsed(): Long {
         return if (startTime == null) -1
-        else Date().time - startTime!!.time
+        else (Date().time - startTime!!.time) / 1000
     }
 
     fun getTimeExpected(): Long {
-        return duration.calcTimeMillis()
+        return duration.calcTimeSeconds()
     }
 
     fun getStatus(): Int {
@@ -52,9 +52,13 @@ data class Task(@PrimaryKey @NonNull @ColumnInfo(name = "_id") @SerializedName("
             !added -> UNPLANNED
             timeUsed < 0 -> PLANNED
             timeUsed in 0..timeExpected -> IN_PROGRESS
-            timeUsed > timeExpected -> FINISHED
+            timeUsed >= timeExpected -> FINISHED
             else -> UNPLANNED
         }
+    }
+
+    fun getTimeUsedPercentage(): Int {
+        return Math.min(100, (getTimeUsed() / (getTimeExpected() * 1.0) * 100).toInt())
     }
 
     constructor(parcel: Parcel) : this(parcel.readInt()) {
@@ -77,8 +81,8 @@ data class Task(@PrimaryKey @NonNull @ColumnInfo(name = "_id") @SerializedName("
                 parcel.readInt(),
                 parcel.readInt())
 
-        fun calcTimeMillis(): Long {
-            return (years * 365 + months * 30 + days) * 24 * 60 * 60L
+        fun calcTimeSeconds(): Long {
+            return ((years * 365 + months * 30 + days) * 24 * 60 * 60).toLong()
         }
 
         fun toString(context: Context): String {

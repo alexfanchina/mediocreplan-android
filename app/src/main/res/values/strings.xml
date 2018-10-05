@@ -48,6 +48,10 @@
     <string name="desc_popularity">Popularity: %d</string>
     <string name="desc_contributor">Contributor: %s</string>
 
+    <string name="period_done">%d%%</string>
+    <string name="period_left">%s left</string>
+    <string name="period_left_finished">Finished</string>
+
     <string name="transition_card">transition-card</string>
     <string name="transition_title">transition-title</string>
     <string name="transition_narration">transition-narration</string>

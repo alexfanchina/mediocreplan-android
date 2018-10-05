@@ -43,6 +43,7 @@ class TaskViewModel : ViewModel() {
     fun startTask(task: Task) {
         task.added = true
         task.startTime = Date()
+        task.popularity += 1
         mTaskRepository!!.updateStarted(task)
     }
 
