@@ -18,7 +18,11 @@ class TaskViewModel : ViewModel() {
     private var mAllTasks: LiveData<List<Task>>? = null
 
     fun getAllTasks(): LiveData<List<Task>> {
-        mAllTasks = mTaskRepository!!.getAllTasks()
+        return getAllTasks(null)
+    }
+
+    fun getAllTasks(observer: TaskRepository.TaskRepoObserver?): LiveData<List<Task>> {
+        mAllTasks = mTaskRepository!!.getAllTasks(observer)
         return mAllTasks!!
     }
 

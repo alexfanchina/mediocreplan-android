@@ -2,6 +2,7 @@ package com.race.mediocreplan.data.repo
 
 import android.app.Application
 import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.Observer
 import com.race.mediocreplan.data.dao.TaskDao
 import com.race.mediocreplan.data.dao.TaskDatabase
 import com.race.mediocreplan.data.model.Task
@@ -30,6 +31,10 @@ class TaskRepository {
     }
 
     fun getAllTasks(): LiveData<List<Task>> {
+        return getAllTasks(null)
+    }
+
+    fun getAllTasks(observer: TaskRepoObserver?): LiveData<List<Task>> {
         val call = mediocrePlanService!!.getAllTasks()
         call.enqueue(object : Callback<List<Task>> {
             override fun onFailure(call: Call<List<Task>>?, t: Throwable?) {
@@ -37,6 +42,7 @@ class TaskRepository {
             }
 
             override fun onResponse(call: Call<List<Task>>?, response: Response<List<Task>>?) {
+                if (observer is TaskRepoObserver) observer.onObserve()
                 Log.d(TAG, response?.raw().toString() + ": " + response?.body())
                 batchInsert(response?.body())
             }
@@ -121,6 +127,10 @@ class TaskRepository {
             } else Log.e("UpdateStartedAsyncTask", "startTime cannot be null")
             return null
         }
+    }
+
+    interface TaskRepoObserver {
+        fun onObserve()
     }
 
     companion object {

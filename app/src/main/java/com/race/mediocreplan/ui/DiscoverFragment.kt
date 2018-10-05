@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.race.mediocreplan.R
+import com.race.mediocreplan.data.repo.TaskRepository
 import com.race.mediocreplan.viewModel.TaskViewModel
 import kotlinx.android.synthetic.main.fragment_discover.view.*
 
@@ -45,7 +46,17 @@ class DiscoverFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_discover, container, false)
+        view.swipe_refresh.setProgressViewOffset(true,
+                resources.getDimensionPixelOffset(R.dimen.swipe_refresh_start_position),
+                resources.getDimensionPixelOffset(R.dimen.swipe_refresh_end_position))
         view.swipe_refresh.setColorSchemeColors(view.context.getColor(R.color.colorAccent))
+        view.swipe_refresh.setOnRefreshListener {
+            taskViewModel?.getAllTasks(observer = object : TaskRepository.TaskRepoObserver {
+                override fun onObserve() {
+                    view.swipe_refresh.isRefreshing = false
+                }
+            })
+        }
         with(view.list) {
             layoutManager = when {
                 columnCount <= 1 -> LinearLayoutManager(context)

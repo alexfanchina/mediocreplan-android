@@ -23,12 +23,6 @@ class TaskRepositoryTest {
 
     @Test
     fun updateAdded() {
-        val repo = TaskRepository(appContext.applicationContext as Application)
-        var task = repo.getAllTasks().value!![0]
-        task.added = true
-        repo.updateAdded(task)
-        task = repo.getAllTasks().value!![0]
-        assert(task.added)
     }
 
     @Test

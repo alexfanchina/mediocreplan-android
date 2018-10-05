@@ -8,4 +8,6 @@
     <dimen name="card_button_margin">12dp</dimen>
     <dimen name="bottom_navigation_elevation">6dp</dimen>
     <dimen name="task_item_selected_elevation">12dp</dimen>
+    <dimen name="swipe_refresh_start_position">-16dp</dimen>
+    <dimen name="swipe_refresh_end_position">16dp</dimen>
 </resources>
