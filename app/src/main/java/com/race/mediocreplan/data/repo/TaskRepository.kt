@@ -67,6 +67,7 @@ class TaskRepository {
 
     fun updateStarted(task: Task) {
         if (mTaskDao != null) {
+            UpdateStartedAsyncTask(mTaskDao!!).execute(task)
             val call = mediocrePlanService!!.updateTaskPopularity(task._id)
             call.enqueue(object : Callback<TaskUpdatePopularityResponse> {
                 override fun onFailure(call: Call<TaskUpdatePopularityResponse>?, t: Throwable?) {
@@ -76,7 +77,6 @@ class TaskRepository {
                 override fun onResponse(call: Call<TaskUpdatePopularityResponse>?, response: Response<TaskUpdatePopularityResponse>?) {
                     if (response?.body() != null) {
                         if (response.body()?._id == task._id) {
-                            UpdateStartedAsyncTask(mTaskDao!!).execute(task)
                             Log.d(TAG, "updateTaskPopularity succeed: ${response.body()}")
                         } else Log.e(TAG, "updateTaskPopularity failed, response._id = null")
                     } else Log.e(TAG, "updateTaskPopularity failed, response = null")
