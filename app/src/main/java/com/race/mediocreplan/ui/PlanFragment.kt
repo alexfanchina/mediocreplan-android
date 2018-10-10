@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.StaggeredGridLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -42,20 +43,20 @@ class PlanFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_plan, container, false)
 
-        // Set the adapter
+        columnCount = resources.getInteger(R.integer.column_number)
         if (view is RecyclerView) {
             with(view) {
                 layoutManager = when {
                     columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
+                    else -> {
+                        StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL)
+                    }
                 }
                 addOnScrollListener(object : RecyclerView.OnScrollListener() {
                     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                         if (layoutManager is LinearLayoutManager) {
                             (layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition() == 0
-                        } else {
-                            (layoutManager as GridLayoutManager).findFirstCompletelyVisibleItemPosition() == 0
-                        }
+                        } else listener?.onListCanScrollUpChanged(canScrollVertically(-1))
                     }
                 })
                 myTaskAdapter = MyTaskRecyclerViewAdapter(listener!!)

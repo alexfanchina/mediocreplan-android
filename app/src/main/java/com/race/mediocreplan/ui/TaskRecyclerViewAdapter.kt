@@ -26,7 +26,7 @@ class TaskRecyclerViewAdapter(private val mListener: OnListFragmentInteractionLi
             val item = v.tag as Task
 //            val prevExpandedPosition = mExpandedPosition
 //            mExpandedPosition = if (holder.adapterPosition == mExpandedPosition)
-//                RecyclerView.NO_POSITION else holder.adapterPosition
+//            RecyclerView.NO_POSITION else holder.adapterPosition
             mListener.onTaskClick(item, holder)
             // TODO: fix the transition
 //            val transition = AutoTransition()
@@ -34,6 +34,10 @@ class TaskRecyclerViewAdapter(private val mListener: OnListFragmentInteractionLi
 //            TransitionManager.beginDelayedTransition(holder.mView as ViewGroup, transition)
 //            TransitionManager.beginDelayedTransition(recyclerView)
 //            notifyDataSetChanged()
+        }
+        holder.cardView.setOnLongClickListener { v ->
+            val item = v.tag as Task
+            mListener.onTaskLongClick(item)
         }
         holder.buttonStartNow.setOnClickListener { _ ->
             val item = items[holder.adapterPosition]

@@ -11,6 +11,9 @@ import com.race.mediocreplan.R
 import com.race.mediocreplan.data.model.Task
 import kotlinx.android.synthetic.main.item_section_title.view.*
 import android.util.Pair as UtilPair
+import android.support.v7.widget.StaggeredGridLayoutManager
+
+
 
 
 class MyTaskRecyclerViewAdapter(
@@ -49,6 +52,10 @@ class MyTaskRecyclerViewAdapter(
             holder.cardView.setOnClickListener { _ ->
                 val task = getTaskFromPosition(holder.adapterPosition)
                 mListener.onTaskClick(task, holder)
+            }
+            holder.cardView.setOnLongClickListener { _ ->
+                val task = getTaskFromPosition(holder.adapterPosition)
+                mListener.onTaskLongClick(task)
             }
             holder.buttonStartNow.setOnClickListener { _ ->
                 val task = getTaskFromPosition(holder.adapterPosition)
@@ -123,6 +130,16 @@ class MyTaskRecyclerViewAdapter(
     }
 
     override fun getItemCount(): Int = tasksInProgress.size + tasksPlanned.size + tasksFinished.size + 3
+
+    override fun onViewAttachedToWindow(holder: ViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        val lp = holder.itemView.layoutParams
+        if (lp != null
+                && lp is StaggeredGridLayoutManager.LayoutParams
+                && getItemViewType(holder.adapterPosition) == TYPE_SECTION_TITLE) {
+            lp.isFullSpan = true
+        }
+    }
 
     inner class SectionTitleViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val textSectionTitle: TextView = mView.text_section_title

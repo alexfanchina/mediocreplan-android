@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="text_share_task">%1$s - Mediocre Plan\n\n%2$s</string>
+
     <string name="contribution_notice">Send emails to our developer team to contribute your cool tasks. </string>
 
     <string name="why_mediocre"><![CDATA[

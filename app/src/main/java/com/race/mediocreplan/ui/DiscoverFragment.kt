@@ -2,11 +2,13 @@ package com.race.mediocreplan.ui
 
 import android.arch.lifecycle.Observer
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SimpleItemAnimator
+import android.support.v7.widget.StaggeredGridLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -45,6 +47,7 @@ class DiscoverFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        Log.d(TAG, "onCreateView")
         val view = inflater.inflate(R.layout.fragment_discover, container, false)
         view.swipe_refresh.setProgressViewOffset(true,
                 resources.getDimensionPixelOffset(R.dimen.swipe_refresh_start_position),
@@ -58,16 +61,20 @@ class DiscoverFragment : Fragment() {
             })
         }
         with(view.list) {
+            columnCount = resources.getInteger(R.integer.column_number)
             layoutManager = when {
                 columnCount <= 1 -> LinearLayoutManager(context)
-                else -> GridLayoutManager(context, columnCount)
+                else -> StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL)
             }
+            setHasFixedSize(false)
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
             taskAdapter = TaskRecyclerViewAdapter(listener!!)
             taskAdapter?.setHasStableIds(true)
             adapter = taskAdapter
             setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-                listener?.onListCanScrollUpChanged((layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition() != 0)
+                if (layoutManager is LinearLayoutManager)
+                    listener?.onListCanScrollUpChanged((layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition() != 0)
+                else listener?.onListCanScrollUpChanged(canScrollVertically(-1))
             }
         }
         return view

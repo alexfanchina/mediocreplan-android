@@ -6,8 +6,12 @@
     <dimen name="card_radius">6dp</dimen>
     <dimen name="card_drawable_padding">8dp</dimen>
     <dimen name="card_button_margin">12dp</dimen>
+    <dimen name="detail_card_horizontal_margin">4dp</dimen>
     <dimen name="bottom_navigation_elevation">6dp</dimen>
     <dimen name="task_item_selected_elevation">12dp</dimen>
     <dimen name="swipe_refresh_start_position">-16dp</dimen>
     <dimen name="swipe_refresh_end_position">16dp</dimen>
+
+    <dimen name="two_column_max_width">1200dp</dimen>
+    <dimen name="card_max_width">600dp</dimen>
 </resources>

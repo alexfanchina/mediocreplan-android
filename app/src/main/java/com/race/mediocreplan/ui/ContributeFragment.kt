@@ -23,8 +23,8 @@ class ContributeFragment : Fragment() {
         view.button_send_email.setOnClickListener { _ ->
             val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                     "mailto", "takeasnaprace@gmail.com", null))
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Contribute to Mediocre Plan")
-            emailIntent.putExtra(Intent.EXTRA_TEXT, "")
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Mediocre Plan - Contribute tasks")
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "# Contribute your cool tasks here")
             startActivity(Intent.createChooser(emailIntent, getString(R.string.title_send_email_intent)))
         }
         view.text_navi_intro.setOnClickListener { _ ->

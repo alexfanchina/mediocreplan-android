@@ -1,6 +1,7 @@
 package com.race.mediocreplan.ui
 
 import android.app.ActivityOptions
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -121,6 +122,19 @@ class MainActivity : AppCompatActivity(), OnListFragmentInteractionListener {
     override fun onListCanScrollUpChanged(canScrollDown: Boolean) {
         action_bar.isActivated = canScrollDown
         Log.d(TAG, "action_bar isActivated = ${action_bar.isActivated}")
+    }
+
+    override fun onTaskLongClick(item: Task?): Boolean {
+        if (item is Task) {
+            val sendIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, String.format(getString(R.string.text_share_task),
+                        item.title, item.narration))
+                type = "text/plain"
+            }
+            startActivity(Intent.createChooser(sendIntent, resources.getText(R.string.title_share_task)))
+            return true
+        } else return false
     }
 
     companion object {
